@@ -1,0 +1,54 @@
+{% extends "template_base.html" %}
+
+
+{% block contenu %}
+    
+    {% if form.errors %}
+        {{ form.errors }}
+    {% endif %}
+   <div class="container">
+    <form action="" method="POST">
+    {% csrf_token %} 
+            <div class="col-md-6 ">
+                <label for="{{ form.prenom.id_for_label }}" class="form-label">Prénom</label>
+                {{form.prenom}}
+            </div>
+            <div class="col-md-6">
+                <label for="{{ form.last_name.id_for_label }}" class="form-label">Nom</label>
+                {{form.last_name}}
+            </div>
+      
+            <div class="col-md-6 champ">
+                <label for="{{ form.codeP.id_for_label }}" class="form-label champ">Code Permenant</label>
+                {{form.codeP}}
+            </div>
+            <div class="col-md-6 champ">
+                <label for="{{ form.username.id_for_label }}" class="form-label champ">Adresse Electronique</label>
+                {{form.username}}
+            </div>
+         
+            <div class="col-md-6 champ">
+                <label for="{{ form.adresse.id_for_label }}" class="form-label champ">Adresse Domicile</label>
+                {{form.adresse}}
+            </div>
+            <div class="col-md-6 champ">
+                <label for="{{ form.tel.id_for_label }}" class="form-label champ">Téléphone</label>
+                {{form.tel}}
+            </div>
+       
+        <div class="col-md-12"style="margin-top:24px;">
+            <label for="{{ form.mot_de_passe.id_for_label }}" class="form-label">Mot de passe</label>
+            {{form.password1}}
+        </div>
+        <div class="col-md-12 "style="margin-top:24px;">
+            <label for="{{ form.mot_de_passe_de_confirmation.id_for_label }}" class="form-label">Confirmer le mot de passe</label>
+            {{form.password2}}
+        </div>
+           
+        <div class="col-md-6"style="margin-top:25px;">
+            <button type="submit" class="btn btn-primary">S'inscrire</button>
+        </div>
+      </form>  
+   </div>
+
+{% endblock %}

@@ -10,7 +10,7 @@
     <aside id="colorlib-aside" role="complementary" class="border js-fullheight">
         <div class="text-center">
             <div class="author-img" style="background-image: url({% static "images/about.jpg" %});"></div>
-            <h1 id="colorlib-logo"><a href="index.html">Jackson Ford</a></h1>
+            <h1 id="colorlib-logo"><a href="#">{{ request.user }}</a></h1>
             <span class="position"><a href="#">UI/UX/Designer</a> in Philippines</span>
         </div>
         <nav id="colorlib-main-menu" role="navigation" class="navbar">
@@ -18,11 +18,12 @@
                 <ul>
                     <li class="active"><a href="#" data-nav-section="home">Accueil</a></li>
                     <li><a href="#" data-nav-section="about">A Propos </a></li>
-                    <li><a href="#" data-nav-section="services">Services</a></li>
+                    <li><a href="#" data-nav-section="services">Expertise</a></li>
                     <li><a href="#" data-nav-section="skills">Competences</a></li>
                     <li><a href="#" data-nav-section="education">Cursus</a></li>
                     <li><a href="#" data-nav-section="experience">Experiences</a></li>
-                    <li><a href="#" data-nav-section="contact">Contact</a></li>    
+                    <li><a href="#" data-nav-section="contact">Contact</a></li> 
+                   
                 </ul>
             </div>
             <ul><li><a href="{% url 'logout' %} ">Se déconnecter</a></li></ul>
@@ -31,7 +32,7 @@
 
         <div class="colorlib-footer">
             
-            <p><small>&copy;Copyright <script>document.write(new Date().getFullYear());</script> All rights reserved. Made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+            <p><small>&copy;Copyright <script>document.write(new Date().getFullYear());</script> All rights reserved. Made with <i class="icon-heart" aria-hidden="true"></i> by <a href="#" target="_blank">Colorlib</a>
 </span> <span>Distributed by <a href="#" target="_blank">ThemeWagon</a></span> <span>Demo Images: <a href="https://unsplash.com/" target="_blank">Unsplash.com</a></span></small></p>
             <ul>
                 <li><a href="#"><i class="icon-facebook2"></i></a></li>
@@ -54,8 +55,8 @@
                                <div class="col-md-6 col-md-offset-3 col-md-pull-3 col-sm-12 col-xs-12 js-fullheight slider-text">
                                    <div class="slider-text-inner js-fullheight">
                                        <div class="desc">
-                                           <h1>Hi! <br>I'm Jackson</h1>
-                                           <h2>100% html5 bootstrap templates Made by <a href="https://colorlib.com/" target="_blank">colorlib.com</a></h2>
+                                           <h1>Bonjour ! <br>Je suis {{ request.user }}</h1>
+                                           <h2>100% html5 bootstrap templates Made by <a href="#" target="_blank">colorlib.com</a></h2>
                                             <p><a class="btn btn-primary btn-learn">Download CV <i class="icon-download4"></i></a></p>
                                         </div>
                                    </div>
@@ -70,8 +71,8 @@
                                <div class="col-md-6 col-md-offset-3 col-md-pull-3 col-sm-12 col-xs-12 js-fullheight slider-text">
                                    <div class="slider-text-inner">
                                        <div class="desc">
-                                           <h1>I am <br>a Designer</h1>
-                                            <h2>100% html5 bootstrap templates Made by <a href="https://colorlib.com/" target="_blank">colorlib.com</a></h2>
+                                           <h1>Je suis <br>un Designer</h1>
+                                            <h2>100% html5 bootstrap templates Made by <a href="#" target="_blank">colorlib.com</a></h2>
                                             <p><a class="btn btn-primary btn-learn">View Portfolio <i class="icon-briefcase3"></i></a></p>
                                         </div>
                                    </div>
@@ -84,9 +85,6 @@
         </section>
 
         <section class="colorlib-about" data-section="about">
-            {%  if user.is_authenticated %}
-                <p>Vous êtes connecté en tant que {{ request.user }} !</p>
-            {% endif %}
             <div class="colorlib-narrow-content">
                 <div class="row">
                     <div class="col-md-12">
@@ -306,6 +304,67 @@
                     <div class="col-md-12 animate-box" data-animate-effect="fadeInLeft">
                         <div class="fancy-collapse-panel">
                             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                
+                                {% for cursus in cursus %}           
+                                {% if not forloop.counter|divisibleby:2 %}
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headingOne">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">                                   
+                                                {{cursus.diplome_name}}  ({{cursus.anneedebut.year}}-{{cursus.anneeFin.year}})                           
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                         <div class="panel-body">
+                                            <div class="row">
+                                                  <div class="col-md-6">
+                                                   
+                                                      <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
+                                                  </div>
+                                                  <div class="col-md-6">
+                                                      <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+                                                  </div>
+                                              </div>
+                                         </div>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headingTwo">
+                                        <h4 class="panel-title">
+                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                {{cursus.diplome_name}}  ({{cursus.anneedebut.year}}-{{cursus.anneeFin.year}}) 
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                        <div class="panel-body">
+                                            <p>Far far away, behind the word <strong>mountains</strong>, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+                                                <ul>
+                                                    <li>Separated they live in Bookmarksgrove right</li>
+                                                    <li>Separated they live in Bookmarksgrove right</li>
+                                                </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+  
+                                  
+                                
+            
+                                    
+                                   
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>       
+               
+                <!--div class="row">
+                    <div class="col-md-12 animate-box" data-animate-effect="fadeInLeft">
+                        <div class="fancy-collapse-panel">
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                 <div class="panel panel-default">
                                     <div class="panel-heading" role="tab" id="headingOne">
                                         <h4 class="panel-title">
@@ -326,6 +385,7 @@
                                          </div>
                                     </div>
                                 </div>
+                                //
                                 <div class="panel panel-default">
                                     <div class="panel-heading" role="tab" id="headingTwo">
                                         <h4 class="panel-title">
@@ -387,7 +447,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div-->
             </div>
         </section>
 

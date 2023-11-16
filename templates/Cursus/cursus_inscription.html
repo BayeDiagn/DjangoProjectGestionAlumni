@@ -1,0 +1,33 @@
+{% extends "template_base.html" %}
+
+
+{% block contenu %}
+    
+   <div class="container">
+    <form action="" method="POST">
+    {% csrf_token %} 
+            <div class="col-md-6 ">
+                <label for="{{ form.etablissement.id_for_label }}" class="form-label">Université d'accueil</label>
+                {{form.etablissement}}
+            </div>
+            <div class="col-md-6">
+                <label for="{{ form.diplome_name.id_for_label }}" class="form-label">Nom du diplôme</label>
+                {{form.diplome_name}}
+            </div>
+      
+            <div class="col-md-6 champ">
+                <label for="{{ form.anneedebut.id_for_label }}" class="form-label champ">Année de debut</label>
+                {{form.anneedebut}}
+            </div>
+            <div class="col-md-6 champ">
+                <label for="{{ form.anneeFin.id_for_label }}" class="form-label champ">Année de fin</label>
+                {{form.anneeFin}}
+            </div>
+           
+        <div class="col-md-6"style="margin-top:25px;">
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+        </div>
+      </form>  
+   </div>
+
+{% endblock %}

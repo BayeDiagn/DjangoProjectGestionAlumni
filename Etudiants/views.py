@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import login, logout, authenticate
+from Cursus.models import Cursus
 from Etudiants.forms import EtudiantForm
 from django.contrib.auth.decorators import login_required
 #from django.contrib.auth.views import LogoutView
@@ -9,7 +10,12 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def etudiant_home(request):
-    return render(request, "Etudiants/etudiant_home.html")
+    user = request.user
+    cursus = Cursus.objects.filter(etudiant=user.id)
+    #nbre=Cursus.objects.count();
+        
+    context={"cursus":cursus}
+    return render(request, "Etudiants/etudiant_home.html",context)
 
 
 #view d'inscription
@@ -19,7 +25,7 @@ def etudiant_inscription(request):
         form = EtudiantForm(request.POST)
         if form.is_valid():
             user = form.save()
-            return redirect("login")
+            return redirect("cursus",user.id)
     context={"form":form}
     return render(request, "Etudiants/inscription.html",context)
 

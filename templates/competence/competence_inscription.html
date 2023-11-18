@@ -1,0 +1,36 @@
+{% extends "template_base.html" %}
+
+
+{% block contenu %}
+    
+   <div class="container">
+    <form action="" method="POST">
+    {% csrf_token %} 
+    <div class="row">
+        <div class="col-md-6 champ">
+            <label for="nominput" class="form-label">Compétence</label>
+            <input type="text" name="nom" class="form-control form-control-sm" id="nominput" placeholder="Développement d'applications" required>
+           
+        </div>
+        <div class="col-md-6 champ">
+            <label for="pourcentageinput" class="form-label">Niveau de maîtrise </label>
+            <input type="number" name="pourcentage" class="form-control form-control-sm" id="pourcentageinput" placeholder="50" required>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 champ"style="margin-top:70px;">
+            <!--label for="descinput" class="form-label champ"></label-->
+            <textarea class="form-control form-control-sm" rows="5" name="description" placeholder="Description"></textarea>
+        </div>
+    </div>
+            
+    <div class="row" style="display: flex; justify-content: end;"> 
+        <div class="col-md-3 "style="margin-top:80px;">
+            <button type="submit" class="btn btn-success">Ajouter</button>
+            <a href="{% url 'login' %}" class="btn btn-primary"> Terminer </a>
+        </div>          
+            
+    </div>
+
+{% endblock %}  

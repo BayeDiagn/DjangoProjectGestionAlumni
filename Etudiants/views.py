@@ -1,8 +1,11 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import login, logout, authenticate
 from Cursus.models import Cursus
+from Emploi.models import Emploi
 from Etudiants.forms import EtudiantForm
 from django.contrib.auth.decorators import login_required
+
+from competence.models import Competence
 #from django.contrib.auth.views import LogoutView
 
 
@@ -12,9 +15,11 @@ from django.contrib.auth.decorators import login_required
 def etudiant_home(request):
     user = request.user
     cursus = Cursus.objects.filter(etudiant=user.id)
+    emploi = Emploi.objects.filter(etudiant=user.id)
+    competences = Competence.objects.filter(etudiant=user.id)
     #nbre=Cursus.objects.count();
         
-    context={"cursus":cursus}
+    context={"cursus":cursus,"emploi":emploi,"competences":competences}
     return render(request, "Etudiants/etudiant_home.html",context)
 
 

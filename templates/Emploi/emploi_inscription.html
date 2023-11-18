@@ -1,0 +1,57 @@
+{% extends "template_base.html" %}
+
+
+{% block contenu %}
+    
+   <div class="container">
+    <form action="" method="POST">
+    {% csrf_token %} 
+        <div class="row">
+            <div class="col-md-6" style="margin-top:20px;">
+                <label for="entrepriseinput" class="form-label">Nom lde l'entreprise</label>
+                <input type="text" name="entreprise" class="form-control form-control-sm" id="entrepriseinput" placeholder="Orange" required>
+            </div>
+            <div class="col-md-6" style="margin-top:25px;">
+                <label for="typecontinput" class="form-label">Type de Contrat</label>
+                <input type="text" name="typecont" class="form-control form-control-sm" id="typecontinput" placeholder="CDI" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6" style="margin-top:25px;">
+                <label for="posteinput" class="form-label">Intitulé de poste</label>
+                <input type="text" name="poste" class="form-control form-control-sm" id="posteinput" placeholder="Administrateur Systéme" required>
+            </div>
+      
+            <div class="col-md-6" style="margin-top:25px;">
+                <label for="anneedebutinput" class="form-label">Année de Debut</label>
+                <input type="date" name="anneedebut" class="form-control form-control-sm" id="anneedebutinput" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6" style="margin-top:25px;">
+                <label for="anneefininput" class="form-label">Année de Fin</label>
+                <input type="date" name="anneeFin" class="form-control form-control-sm" id="anneefininput" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 champ"style="margin-top:60px;">
+                <textarea class="form-control form-control-sm" rows="5" name="description" placeholder="Description"></textarea>
+            </div>
+        </div>
+
+
+        <div class="row" style="display: flex; justify-content: end;"> 
+            <div class="col-md-3 "style="margin-top:80px;">
+                <button type="submit" class="btn btn-success">Ajouter</button>
+                <a href="{% url 'competence' etudiant.id %}" class="btn btn-primary"> Suivant </a>
+             </div>          
+            
+        </div>
+
+      </form>  
+   </div>
+
+{% endblock %}

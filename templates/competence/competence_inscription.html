@@ -1,36 +1,45 @@
-{% extends "template_base.html" %}
+{% extends "index.html" %}
 
 
 {% block contenu %}
     
-   <div class="container">
-    <form action="" method="POST">
+<form class="mt-10 sm:mx-auto sm:w-full sm:max-w-lg"  method="post">
     {% csrf_token %} 
-    <div class="row">
-        <div class="col-md-6 champ">
-            <label for="nominput" class="form-label">Compétence</label>
-            <input type="text" name="nom" class="form-control form-control-sm" id="nominput" placeholder="Développement d'applications" required>
-           
-        </div>
-        <div class="col-md-6 champ">
-            <label for="pourcentageinput" class="form-label">Niveau de maîtrise </label>
-            <input type="number" name="pourcentage" class="form-control form-control-sm" id="pourcentageinput" placeholder="50" required>
-        </div>
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+        <h2 class="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-500">Compétences</h2>
     </div>
 
-    <div class="row">
-        <div class="col-md-6 champ"style="margin-top:70px;">
-            <!--label for="descinput" class="form-label champ"></label-->
-            <textarea class="form-control form-control-sm" rows="5" name="description" placeholder="Description"></textarea>
+    <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <div class="sm:col-span-full">  
+            <label for="comp" class="block text-sm font-medium leading-6 text-gray-900">Nom du compétence</label>
+            <div class="mt-2">
+              <input type="text" name="nom" id="comp" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+            </div>
         </div>
+  
+        <div class="sm:col-span-full">
+            <label for="pourcentageinput" class="block text-sm font-medium leading-6 text-gray-900">Niveau de maîtrise</label>
+            <div class="mt-2">
+              <input type="number" name="pourcentage" id="pourcentageinput" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+            </div>
+        </div>
+
+        <div class="sm:col-span-full">
+            <div class="mt-10 pt-10">
+              <textarea name="description" rows="3" placeholder="Description du competence." class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" ></textarea>
+            </div>
+        </div>
+
+        <div class="mt-19 mb-20 pt-12  ml-20 flex items-center justify-center gap-x-6 mx-auto">
+            <button type="submit"class=" ml-11 middle none center mr-4 rounded-lg bg-green-400 py-3 px-6 font-sans text-xs font-bold uppercase text-white transition-all hover:shadow-lg hover:shadow-green-400/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.65] active:shadow-none disabled:pointer-events-none">
+            Ajouter
+            </button>
+            <a href="{% url 'login' %}" class="middle none center mr-4 rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white transition-all hover:shadow-lg hover:shadow-blue-400/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.65] active:shadow-none disabled:pointer-events-none"> 
+            Terminer </a>
+        </div>
+
     </div>
-            
-    <div class="row" style="display: flex; justify-content: end;"> 
-        <div class="col-md-3 "style="margin-top:80px;">
-            <button type="submit" class="btn btn-success">Ajouter</button>
-            <a href="{% url 'login' %}" class="btn btn-primary"> Terminer </a>
-        </div>          
-            
-    </div>
+
+</form>
 
 {% endblock %}  

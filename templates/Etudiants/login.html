@@ -1,34 +1,52 @@
-{% extends "template_base.html" %}
-
+{% extends "index.html" %}
+{% load static %}
 
 {% block contenu %}
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 pb-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+      <img class="mx-auto h-16 w-18" src="{% static "images/uadb.png" %}" alt="Université Alioune DIOP">
+      <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Connectez-vous à votre compte</h2>
+    </div>
     
-   <div class="container">
-    <form method="post" >
-    {% csrf_token %} 
-    <h3>{{ message }}</h3> 
-        <div class="row">
-            <div class="col-md-6 champ">
-                <label for="emailinput" class="form-label">Adresse Email</label>
-                <input type="email" name="username" class="form-control form-control-sm" placeholder='exemple@gmail.com' id="emailinput" required>
-
-            </div>    
-        </div>
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
        
-        <div class="row">
-            <div class="col-md-6"style="margin-top:24px;">
-                <label for="passwordinput" class="form-label">Mot de passe</label>
-                <input type="password" name="password" class="form-control form-control-sm" id="passwordinput" required>
-            </div>
-        </div>
-           
-        <div class="row">
-            <div class="col-md-6"style="margin-top:25px;">
-                <button type="submit" class="btn btn-primary">Se Connecter</button>
-            </div>
-        </div>
+        {% if form.errors %}
+          <p class="bg-red-100 text-red-600 px-4 py-3 pb-5 rounded-md shadow-sm" role="alert">Nom d'utilisateur ou mot de passe incorrect!</p>
+        {% endif %}
 
-      </form>  
-   </div>
+      <form class="space-y-6" method="POST">
+        {% csrf_token %} 
+        <div>
+          <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Adresse email</label>
+          <div class="mt-2">
+            <input id="email" name="username" type="email" autocomplete="email" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-500 sm:text-sm sm:leading-6">
+          </div>
+        </div>
+  
+        <div>
+          <div class="flex items-center justify-between">
+            <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Mot de passe</label>
+            <div class="text-sm">
+              <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Mot de passe oublié?</a>
+            </div>
+          </div>
+          <div class="mt-2">
+            <input id="password" name="password"  type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-500 sm:text-sm sm:leading-6">
+          </div>
+        </div>
+  
+        <div>
+          <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-300">Se connecter</button>
+        </div>
+      </form>
+  
+      <p class="mt-10 text-center text-sm text-gray-500">
+        Vous n'êtes pas encore membre?
+        <a href="{% url "inscription" %}" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">S'inscrire</a>
+      </p>
+    </div>
+  </div>
+  
+  
 
 {% endblock %}

@@ -1,39 +1,89 @@
-{% extends "template_base.html" %}
+{% extends "index.html" %}
 
 
-{% block contenu %}
-    
-   <div class="container">
-    <form action="" method="POST">
+{% block contenu %} 
+
+<form class="mt-10 sm:mx-auto sm:w-full sm:max-w-lg"  method="post">
     {% csrf_token %} 
-        <div class="row">
-            <div class="col-md-6 champ">
-                <label for="{{ form.etablissement.id_for_label }}" class="form-label">Université d'accueil</label>
-                {{form.etablissement}}
-            </div>
-            <div class="col-md-6 champ">
-                <label for="{{ form.diplome_name.id_for_label }}" class="form-label">Nom du diplôme</label>
-                {{form.diplome_name}}
-            </div>
-        </div>
-            
-        <div class="row">
-            <div class="col-md-6 champ">
-                <label for="{{ form.anneedebut.id_for_label }}" class="form-label champ">Année de debut</label>
-                {{form.anneedebut}}
-            </div>
-            <div class="col-md-6 champ">
-                <label for="{{ form.anneeFin.id_for_label }}" class="form-label champ">Année de fin</label>
-                {{form.anneeFin}}
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+        <h2 class="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-500">Votre Cursus</h2>
+      </div>
+
+    <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <div class="sm:col-span-full">
+            <label for="etablissement" class="block text-sm font-medium leading-6 text-gray-900">Université d'accueil</label>
+            <div class="mt-2">
+              <input type="text" name="etablissement" id="etablissement" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
             </div>
         </div>
-            
-        <div class="row" style="display: flex; justify-content: end;"> 
-            <div class="col-md-3 "style="margin-top:80px;">
-                <button type="submit" class="btn btn-success">Ajouter</button>
-                <a href="{% url 'emploi' etudiant.id %}" class="btn btn-primary"> Suivant </a>
-             </div>          
-            
+    </div>
+
+    <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <div class="sm:col-span-full">
+            <label for="diplome" class="block text-sm font-medium leading-6 text-gray-900">Nom du diplôme</label>
+            <div class="mt-2">
+              <input type="text" name="diplome_name" id="diplome" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+            </div>
         </div>
+        <div class="sm:col-span-3">
+            <label for="moisdatedebut" class=" block text-sm font-medium leading-6 text-gray-900">Date de debut</label>
+            <div class="mt-2">
+                <select name="mois_date_debut" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Mois" required>
+                    <option value="" {% if not form.mois_date_debut.value %}selected{% endif %}>Mois</option>
+                    {% for mois in form.mois_date_debut.field.choices %}
+                      <option value="{{ mois.0 }}">{{ mois.1 }}</option>  
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="sm:col-span-3">
+            <div class="mt-2">
+                <select name="annee_date_debut" autocomplete="family-name" class="block w-full mt-8 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Mois" required>
+                    <option value="" {% if not form.annee_date_debut.value %}selected{% endif %}>Année</option>
+                    {% for annee in form.annee_date_debut.field.choices %}
+                      <option value="{{ annee.0 }}">{{ annee.1 }}</option>  
+                    {% endfor %}
+                    </select>
+            </div>
+         </div>
+
+         <div class="sm:col-span-3">
+            <label for="moisdatefin" class="block text-sm font-medium leading-6 text-gray-900">Date de fin</label>
+            <div class="mt-2">
+                <select name="mois_date_fin" id="mois_date_fin" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Mois" required>
+                    <option value="" {% if not form.mois_date_fin.value %}selected{% endif %}>Mois</option>
+                    {% for mois in form.mois_date_fin.field.choices %}
+                      <option value="{{ mois.0 }}">{{ mois.1 }}</option>  
+                    {% endfor %}
+                    </select>
+            </div>
+        </div>
+
+        <div class="sm:col-span-3">
+            <div class="mt-2">
+                <select name="annee_date_fin" id="anneedatefin" autocomplete="family-name" class="block w-full mt-8 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Mois" required>
+                    <option value="" {% if not form.annee_date_fin.value %}selected{% endif %}>Année</option>
+                    {% for annee in form.annee_date_fin.field.choices %}
+                      <option value="{{ annee.0 }}">{{ annee.1 }}</option>  
+                    {% endfor %}
+                    </select>
+            </div>
+        </div>
+
+    </div>
+    
+   
+    
+
+    <div class="mt-20 mb-20 pt-2 flex items-center justify-center gap-x-6 mx-auto">
+        <button type="submit"class="middle none center mr-4 rounded-lg bg-green-400 py-3 px-6 font-sans text-xs font-bold uppercase text-white transition-all hover:shadow-lg hover:shadow-green-400/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.65] active:shadow-none disabled:pointer-events-none">
+        Ajouter
+        </button>
+        <a href="{% url 'emploi' etudiant.id %}" class="middle none center mr-4 rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white transition-all hover:shadow-lg hover:shadow-blue-400/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.65] active:shadow-none disabled:pointer-events-none"> 
+        Suivant </a>
+    </div>
+
+</form>
 
 {% endblock %}  

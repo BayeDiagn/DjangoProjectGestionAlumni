@@ -9,24 +9,29 @@
     <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><i></i></a>
     <aside id="colorlib-aside" role="complementary" class="border js-fullheight">
         <div class="text-center">
-            <div class="author-img" style="background-image: url({% static "images/about.jpg" %});"></div>
-            <h1 id="colorlib-logo"><a href="#">{{ request.user }}</a></h1>
-            <span class="position"><a href="#">UI/UX/Designer</a> in Philippines</span>
+            {% if request.user.photo %}
+                <div class="author-img" style="background-image: url({{ request.user.photo.url }});"></div>
+            {% else %}
+                <div class="author-img" style="background-image: url({% static "images/uadb.png" %});"></div>
+            {% endif %}
+            <h1 id="colorlib-logo"><a href="{% url 'update'  request.user.id   %}">{{ request.user }}</a></h1>
+            <span class="position"><p style="color:#08BCEF">{{ request.user.profession }}<p></span>
+         
         </div>
         <nav id="colorlib-main-menu" role="navigation" class="navbar">
             <div id="navbar" class="collapse">
                 <ul>
                     <li class="active"><a href="#" data-nav-section="home">Accueil</a></li>
                     <li><a href="#" data-nav-section="about">A Propos </a></li>
-                    <li><a href="#" data-nav-section="services">Expertise</a></li>
-                    <li><a href="#" data-nav-section="skills">Competences</a></li>
+                    <li><a href="#" data-nav-section="services">Compétences</a></li>
+                    <li><a href="#" data-nav-section="skills">Niveau de compétences</a></li>
                     <li><a href="#" data-nav-section="education">Cursus</a></li>
                     <li><a href="#" data-nav-section="experience">Experiences</a></li>
                     <li><a href="#" data-nav-section="contact">Contact</a></li> 
                    
                 </ul>
             </div>
-            <ul><li><a href="{% url 'logout' %} ">Se déconnecter</a></li></ul>
+            <ul><li><a href="{% url 'deconnexion' %} ">Se déconnecter</a></li></ul>
         </nav>
 
 
@@ -48,7 +53,9 @@
         <section id="colorlib-hero" class="js-fullheight" data-section="home">
             <div class="flexslider js-fullheight">
                 <ul class="slides">
-                   <li style="background-image: url({% static "images/img_bg_1.jpg" %});">
+                    {% if request.user.couverture %}
+                   <li style="background-image: url({{ request.user.couverture.url }});">
+                    
                        <div class="overlay"></div>
                        <div class="container-fluid">
                            <div class="row">
@@ -64,6 +71,7 @@
                            </div>
                        </div>
                    </li>
+                   {% endif %}
                    <li style="background-image: url({% static "images/img_bg_2.jpg" %});">
                        <div class="overlay"></div>
                        <div class="container-fluid">
@@ -71,7 +79,7 @@
                                <div class="col-md-6 col-md-offset-3 col-md-pull-3 col-sm-12 col-xs-12 js-fullheight slider-text">
                                    <div class="slider-text-inner">
                                        <div class="desc">
-                                           <h1>Je suis <br>un Designer</h1>
+                                           <h1>Je suis <br>{{ request.user.profession }}</h1>
                                             <h2>100% html5 bootstrap templates Made by <a href="#" target="_blank">colorlib.com</a></h2>
                                             <p><a class="btn btn-primary btn-learn">View Portfolio <i class="icon-briefcase3"></i></a></p>
                                         </div>
@@ -91,10 +99,10 @@
                         <div class="row row-bottom-padded-sm animate-box" data-animate-effect="fadeInLeft">
                             <div class="col-md-12">
                                 <div class="about-desc">
-                                    <span class="heading-meta">About Us</span>
-                                    <h2 class="colorlib-heading">Who Am I?</h2>
-                                    <p><strong>Hi I'm Jackson Ford</strong> On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country.</p>
-                                    <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.</p>
+                                    <span class="heading-meta"></span>
+                                    <h2 class="colorlib-heading">Qui suis-je?</h2>
+
+                                    <p> {{request.user.about}} </p>
                                     
                                 </div>
                             </div>
@@ -137,7 +145,7 @@
                     
                     <div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
                         <span class="heading-meta">Que fais-je ?</span>
-                        <h2 class="colorlib-heading">Voici une partie de mes expertises</h2>
+                        <h2 class="colorlib-heading">Voici une partie de mes compétences</h2>
                     </div>
                    
                 </div>
@@ -150,7 +158,9 @@
                             </span>
                             <div class="desc">
                                 <h3>{{competence.nom}}</h3>
-                                <p>{{competence.description}}</p>
+                                {% if competence.description %}
+                                    {{ competence.description }}
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -165,28 +175,28 @@
             <div class="colorlib-narrow-content">
                 <div class="row">
                     <div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
-                        <span class="heading-meta" style="padding-bottom: 60px;">Mes Compétences</span>
+                        <span class="heading-meta" style="padding-bottom: 60px;"> Niveau de mes Compétences</span>
                         <!--h2 class="colorlib-heading animate-box">My Skills</h2-->
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12 animate-box" data-animate-effect="fadeInLeft">
                         <p style="padding-bottom: 40px;">
-                            Fort d'un parcours chanceux, j'ai acquis une expertise approfondie dans plusieurs compétences
-                            clés. Les expériences enrichissantes ont consolidé mes connaissances théoriques et pratiques,
-                            me permettant aujourd'hui de maîtriser les rouages ​​et les meilleures pratiques dans mes domaines
-                            de prédilection. Mes multiples talents présentent mon efficacité dans divers projets, apportant
-                            un impact positif au sein des organisations. Animé par une forte motivation, je suis prêt à 
-                            exploiter mon plein potentiel dans de nouveaux défis pour continuer ma progression. J'espère
-                            avoir l'opportunité de démontrer l'étendue de mon savoir-faire, présenté sous forme de barres
-                            de progression.
+                            Fort d'un parcours enrichissant, j'ai développé une expertise approfondie dans plusieurs 
+                            compétences clés au fil de mes expériences. Les projets stimulants auxquels j'ai participé ont 
+                            consolidé mes connaissances théoriques et pratiques, me permettant aujourd'hui de maîtriser les 
+                            meilleures pratiques dans mes domaines d'expertise. Mes talents multiples démontrent mon 
+                            efficacité dans divers contextes, avec un impact positif au sein des équipes. Motivé par les 
+                            défis, je suis prêt à mettre à profit mon plein potentiel dans de nouvelles opportunités pour 
+                            poursuivre ma progression. Pour illustrer visuellement l'étendue de mes savoir-faire, je les 
+                            présente ici sous forme de barres de progression résumant mon niveau dans chaque compétence.
                         </p>
                     </div>
 
                     {% for competence in competences %}
                     <div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
                         <div class="progress-wrap">
-                            <h3>{{competence.nom}}</h3>
+                            <h3>{{competence.nom}}</h3> &nbsp; 
                             <div class="progress">
                                  <div class="progress-bar color-{{forloop.counter}}" role="progressbar" aria-valuenow="{{competence.pourcentage}}"
                                   aria-valuemin="0" aria-valuemax="100" style="width:{{competence.pourcentage}}%">
@@ -229,13 +239,13 @@
                                              <div class="panel-body">
                                                 <div class="row">
                                                       <div class="col-md-6">
-                                                          <strong>{{ cursus.anneedebut.year }}-{{ cursus.anneeFin.year }}</strong><br>       
+                                                          <strong>{{ cursus.annee_date_debut }}-{{ cursus.annee_date_fin }}</strong><br>       
                                                           {{ cursus.diplome_name }} Tolerably earnestly middleton extremely distrusts she boy now not.   ({{ cursus.etablissement }})
                                                           
                                                       </div>
                                                       <div class="col-md-6">
                                                         <i>
-                                                            Tolerably earnestly middleton extremely distrusts she boy now not. Add and offered prepare how cordial two promise.
+                                                            
                                                         </i>
                                                       </div>
                                                   </div>
@@ -251,7 +261,7 @@
             </div>
         </section>
 
-        {% if competences %}
+        {% if emploi %}
         <section class="colorlib-experience" data-section="experience">
             <div class="colorlib-narrow-content">
                 <div class="row">
@@ -273,10 +283,13 @@
                                </div>
 
                                <div class="timeline-label">
-                                  <h2> {{ emploi.poste }} &nbsp;&nbsp; <span>{{ emploi.anneedebut.month }}/{{ emploi.anneedebut.year }} - {{ emploi.anneeFin.month }}/{{ emploi.anneeFin.year }}</span></h2>
+                                  <h2> {{ emploi.poste }} &nbsp;&nbsp; <span>{{ emploi.mois_date_debut }}/{{ emploi.annee_date_debut }} - {{ emploi.mois_date_fin }}/{{ emploi.annee_date_fin }}</span></h2>
                                   <p><strong>Entreprise : &nbsp;&nbsp;</strong><span style="color: gray; font-weight: 900;">{{ emploi.entreprise }}</span></p>
                                   <p><strong>Type de Contrat : &nbsp;&nbsp;</strong><span style="color: gray; font-weight: 900;">{{ emploi.typecont }}</span></p>
-                                  <p>Tolerably earnestly middleton extremely distrusts she boy now not. Add and offered prepare how cordial two promise. Greatly who affixed suppose but enquire compact prepare all put. Added forth chief trees but rooms think may.</p>
+                                  
+                                 {% if emploi.description %}
+                                    <i> {{ emploi.description }}</i>
+                                 {% endif %}
                                </div>
                             </div>
                         </article>

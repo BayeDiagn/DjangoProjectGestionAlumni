@@ -17,7 +17,7 @@ def competence_home(request,user_id):
             competence = compform.save(commit=False)           
             competence.etudiant = etudiant           
             competence.save()
-            return redirect("emploi", user_id)
+            return redirect("competence", user_id)
         
     context={"compform":compform}
     return render(request, "competence/competence_inscription.html",context)

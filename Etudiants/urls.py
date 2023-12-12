@@ -15,6 +15,9 @@ urlpatterns = [
     #path("deconnexion/",LogoutView.as_view(), name="deconnexion"),
     
     path("modifier/<str:pk>/",views.etudiant_update, name="update"),
+    
+    path("liste_etudiant/<str:pk>/",views.liste_etudiant, name="liste_etudiant"),
+    path("etudiant/<str:pk>/",views.etudiant_page, name="etudiant"),
 ]
 
 

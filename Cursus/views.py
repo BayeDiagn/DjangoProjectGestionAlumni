@@ -53,6 +53,8 @@ def liste_cursus(request,pk):
 def cursus_update(request,pk):
     cursus=Cursus.objects.get(id=pk)
     form = CursusForm(instance=cursus)
+    
+    autreCycle = Cursus.objects.filter(etudiant=request.user.id)
      
     if request.method == 'POST':
         form = CursusForm(request.POST,instance=cursus)
@@ -60,5 +62,5 @@ def cursus_update(request,pk):
             form.save()
             return redirect("liste_cursus",pk)
             
-    context={"form":form}
+    context={"form":form,"autreCycle":autreCycle}
     return render(request, "Cursus/cursus_update.html",context)

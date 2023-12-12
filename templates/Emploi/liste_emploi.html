@@ -1,0 +1,240 @@
+{% extends "index.html" %}
+
+
+{% block contenu %} 
+{% include 'navbar.html' %}
+
+<div class="max-w-4xl flex items-center justify-end mx-auto relative overflow-x-auto pt-20 mt-10">
+<button type= data-ripple-light="true" data-dialog-target="dialog-lg"
+      class="select-none rounded-lg bg-gradient-to-tr from-indigo-600 to-indigo-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-sm shadow-gray-900/100 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+      Ajouter une expérience
+    </button>
+    
+</div>
+
+  <div class="max-w-4xl  flex items-center mx-auto relative overflow-x-auto shadow-md sm:rounded-lg"> 
+    <table class="max-w-4xl text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-600 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">Nom de l'entreprise</th>
+                <th scope="col" class="px-6 py-3"> Type de contrat</th>
+                <th scope="col" class="px-6 py-3">Intitulé de poste</th>
+                <th scope="col" class="px-6 py-3"> Mois debut</th>
+                <th scope="col" class="px-6 py-3">Année debut</th>
+                <th scope="col" class="px-6 py-3"> Mois fin</th>
+                <th scope="col" class="px-6 py-3">Année fin</th>
+                <th scope="col" class="px-6 py-3">
+                    <span class="">Modifier</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for emploi in liste %}
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{emploi.entreprise}}
+                </th>
+                <td class="px-6 py-4">{{emploi.typecont}}</td>
+                <td class="px-6 py-4">{{emploi.poste}}</td>
+                <td class="px-6 py-4">{{emploi.mois_date_debut}} </td>
+                <td class="px-6 py-4">{{emploi.annee_date_debut}}</td>
+                <td class="px-6 py-4">{% if not emploi.mois_date_fin%} - {% else %} {{emploi.mois_date_fin}} {% endif %}</td>
+                <td class="px-6 py-4">{% if not emploi.annee_date_fin%} - {% else %} {{emploi.annee_date_fin}} {% endif %}</td>
+                <td class="px-6 py-4 text-right">
+                    <a href="{% url 'emploi_update' emploi.id %}" 
+                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                        <i class="fa-regular fa-pen-to-square" data-ripple-light="true" data-tooltip-target="tooltip"></i>
+                        <!--Tooltip-->
+                        <div data-tooltip="tooltip"
+                            class="sr-only absolute z-50 whitespace-normal break-words rounded-lg bg-indigo-500 py-1.5 px-3 font-sans text-sm font-normal text-white focus:outline-none">
+                            Modifier
+                        </div>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+</div>
+
+    {% if liste.paginator.num_pages > 1 %}
+    <div class="max-w-screen-md mx-auto mt-3 p-4 border-t border-gray-100 bg-white flex items-center justify-between">
+        <span class="step-links space-x-2">
+            {% if liste.has_previous %}
+                <a href="?page=1" class="text-blue-600 hover:underline"></a>
+                <a href="?page={{ liste.previous_page_number }}" class="text-blue-600 hover:underline"></a>
+            {% endif %}
+            {% if liste.has_next %}
+                <a href="?page={{ liste.next_page_number }}" class="text-blue-600 hover:underline"></a>
+                <a href="?page={{ liste.paginator.num_pages }}" class="text-blue-600 hover:underline"></a>
+            {% endif %}
+        </span>
+        <nav aria-label="Page navigation example">
+            <ul class="flex -space-x-2 text-sm">
+                {% if liste.has_previous %}
+                    <li>
+                        <a href="?page={{ liste.previous_page_number }}" class="flex items-center justify-center w-8 h-8 text-gray-500 bg-white border border-r-0 border-gray-300 rounded-l-md hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">«</a>
+                    </li>
+                {% endif %}
+                {% for page in liste.paginator.page_range %}
+                    <li>
+                        <a href="?page={{ page }}" class="flex items-center justify-center w-8 h-8 text-gray-500 bg-white border border-gray-300 {% if page == liste.number %}text-blue-600 bg-blue-50 hover:bg-blue-100 hover:text-blue-700{% else %}hover:bg-gray-100 hover:text-gray-700{% endif %} dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{ page }}</a>
+                    </li>
+                {% endfor %}
+                {% if liste.has_next %}
+                    <li>
+                        <a href="?page={{ liste.next_page_number }}" class="flex items-center justify-center w-8 h-8 text-gray-500 bg-white border border-l-0 border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">»</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+    {% endif %}
+</div>
+
+
+
+<!--Modal-->
+<div data-dialog-backdrop="dialog-lg" data-dialog-backdrop-close="true"
+      class="pointer-events-none fixed inset-0 z-[999] grid  overflow-y-auto w-screen place-items-center bg-black bg-opacity-60 opacity-0 backdrop-blur-sm transition-opacity duration-300">
+      <div data-dialog="dialog-lg"
+        class="relative m-4 w-3/5 min-w-[60%] max-w-[60%] rounded-lg bg-white font-sans text-base font-light leading-relaxed text-blue-gray-500 antialiased shadow-2xl">
+        <div
+          class="flex items-center p-4 font-sans text-2xl antialiased font-semibold leading-snug shrink-0 text-blue-gray-900">
+          Parcours Professionnel
+        </div>
+        <div
+          class="relative p-4 font-sans text-base antialiased font-light leading-relaxed border-t border-b border-t-blue-gray-100 border-b-blue-gray-100 text-blue-gray-500">
+          <form method="post">
+            {% csrf_token %} 
+        
+            <div class="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div class="sm:col-span-full">  
+                    <label for="entrep" class="block text-sm font-medium leading-6 text-gray-900">Nom de l'entreprise</label>
+                    <div class="mt-2">
+                      <input type="text" name="entreprise" id="entrep" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+                    </div>
+                </div>
+          
+                <div class="sm:col-span-full">
+                    <label for="typec" class="block text-sm font-medium leading-6 text-gray-900">Type de Contrat</label>
+                    <div class="mt-2">
+                      <input type="text" name="typecont" id="typec" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+                    </div>
+                </div>
+        
+                <div class="sm:col-span-full">
+                    <label for="post" class="block text-sm font-medium leading-6 text-gray-900">Intitulé de poste</label>
+                    <div class="mt-2">
+                      <input type="text" name="poste" id="post" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+                    </div>
+                </div>
+        
+                <div class="sm:col-span-full">
+                    
+                    <div class="mt-2 mb-3">
+                        <input id="check" type="checkbox" class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-blue-500 checked:bg-blue-500 checked:before:bg-blue-500 hover:before:opacity-10" />
+                        <label class="mt-8  ml-3 font-light font-medium  text-gray-500 cursor-pointer select-none" for="login"> J'occupe acctuellement ce poste </label>
+                    </div>
+                </div>
+             
+                <div class="sm:col-span-3">
+                    <label for="moisdatedebut" class=" block text-sm font-medium leading-6 text-gray-900">Date de debut</label>
+                    <div class="mt-2">
+                        <select name="mois_date_debut" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Mois" required>
+                            <option value="" {% if not form.mois_date_debut.value %}selected{% endif %}>Mois</option>
+                            {% for mois in form.mois_date_debut.field.choices %}
+                              <option value="{{ mois.0 }}">{{ mois.1 }}</option>  
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+        
+                <div class="sm:col-span-3">
+                    <div class="mt-2">
+                        <select name="annee_date_debut" autocomplete="family-name" class="block w-full mt-8 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Mois" required>
+                            <option value="" {% if not form.annee_date_debut.value %}selected{% endif %}>Année</option>
+                            {% for annee in form.annee_date_debut.field.choices %}
+                              <option value="{{ annee.0 }}">{{ annee.1 }}</option>  
+                            {% endfor %}
+                            </select>
+                    </div>
+                 </div>
+        
+                 <div class="sm:col-span-3">
+                    <label for="moisdatefin" class="block text-sm font-medium leading-6 text-gray-900">Date de fin</label>
+                    <div class="mt-2">
+                        <select name="mois_date_fin" id="moisdatefin" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Mois" required>
+                            <option value="" {% if not form.mois_date_fin.value %}selected{% endif %}>Mois</option>
+                            {% for mois in form.mois_date_fin.field.choices %}
+                              <option value="{{ mois.0 }}">{{ mois.1 }}</option>  
+                            {% endfor %}
+                            </select>
+                    </div>
+                </div>
+        
+                <div class="sm:col-span-3">
+                    <div class="mt-2">
+                        <select name="annee_date_fin" id="anneedatefin" autocomplete="family-name" class="block w-full mt-8 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Mois" required>
+                            <option value="" {% if not form.annee_date_fin.value %}selected{% endif %}>Année</option>
+                            {% for annee in form.annee_date_fin.field.choices %}
+                              <option value="{{ annee.0 }}">{{ annee.1 }}</option>  
+                            {% endfor %}
+                            </select>
+                    </div>
+                </div>
+        
+                <div class="sm:col-span-full">
+                    <div class="mt-5 pt-4">
+                      <textarea name="description" rows="3" placeholder="Description du poste." class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" ></textarea>
+                    </div>
+                </div>     
+        
+            </div>
+        
+        </div>
+        <div class="flex flex-wrap items-center justify-end p-4 shrink-0 text-blue-gray-500">
+          <button data-ripple-dark="true" data-dialog-close="true"
+            class="px-6 py-3 mr-1 font-sans text-xs font-bold text-red-500 uppercase transition-all rounded-lg middle none center hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+            Annuler
+          </button>
+          <button data-ripple-light="true" type="submit"
+          class="px-6 py-3 mr-1 font-sans text-xs font-bold text-green-500 uppercase transition-all rounded-lg middle none center hover:bg-green-500/10 active:bg-green-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+            Enregistrer
+          </button>
+        </div>
+    </form>
+      </div>
+    </div>
+
+    
+    <script>
+        const check = document.getElementById("check");
+        const moisdatefin = document.getElementById("moisdatefin"); 
+        const anneedatefin = document.getElementById("anneedatefin");
+        
+        check.addEventListener('change', () => {
+          moisdatefin.disabled = check.checked;
+          anneedatefin.disabled = check.checked; 
+    
+          moisdatefin.style.opacity = moisdatefin.disabled ? 0.5 : 1;
+          anneedatefin.style.opacity = anneedatefin.disabled ? 0.5 : 1;
+        });
+
+    </script>
+
+
+<!-- from node_modules -->
+<script type="module" src="node_modules/@material-tailwind/html@latest/scripts/tooltip.js"></script>
+ 
+<!-- from cdn -->
+<script type="module" src="https://unpkg.com/@material-tailwind/html@latest/scripts/tooltip.js"></script>    
+
+
+
+<!-- from node_modules -->
+<script src="node_modules/@material-tailwind/html@latest/scripts/dialog.js"></script>
+ 
+<!-- from cdn -->
+<script src="https://unpkg.com/@material-tailwind/html@latest/scripts/dialog.js"></script>
+{% endblock %}  

@@ -4,7 +4,7 @@
 {% block contenu %} 
 {% include 'navbar.html' %}
 
-<div class="max-w-screen-md flex items-center justify-end mx-auto relative overflow-x-auto  pt-20 mt-5">
+<div class="max-w-4xl w-full sm:flex  items-center justify-end mx-auto relative overflow-x-auto  pt-20 mt-5">
 <button type= data-ripple-light="true" data-dialog-target="dialog-lg"
       class="select-none rounded-lg bg-gradient-to-tr from-indigo-600 to-indigo-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-sm shadow-gray-900/100 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
       Ajouter un cursus
@@ -12,18 +12,19 @@
     
 </div>
 
-  <div class="max-w-screen-md flex items-center mx-auto relative overflow-x-auto shadow-md sm:rounded-lg"> 
+  <div class="max-w-4xl w-full flex  items-center mx-auto relative overflow-x-auto shadow-md sm:rounded-lg"> 
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="px-6 py-3">Université d'accueil</th>
+                <th scope="col" class="px-6 py-3"> Nom du cycle</th>
                 <th scope="col" class="px-6 py-3"> Nom diplôme</th>
                 <th scope="col" class="px-6 py-3"> Mois debut</th>
                 <th scope="col" class="px-6 py-3">Année debut</th>
                 <th scope="col" class="px-6 py-3"> Mois fin</th>
                 <th scope="col" class="px-6 py-3">Année fin</th>
                 <th scope="col" class="px-6 py-3">
-                    <span class="sr-only">Edit</span>
+                    <span class="">Modifier</span>
                 </th>
             </tr>
         </thead>
@@ -33,22 +34,31 @@
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{cursus.etablissement}}
                 </th>
+                <td class="px-6 py-4">{% if cursus.cycle == "Autre" %} {{cursus.autre_cycle}} {% else %} {{cursus.cycle}} {% endif %}</td>
                 <td class="px-6 py-4">{{cursus.diplome_name}}</td>
                 <td class="px-6 py-4">{{cursus.mois_date_debut}} </td>
                 <td class="px-6 py-4">{{cursus.annee_date_debut}}</td>
-                <td class="px-6 py-4">{{cursus.mois_date_fin}}</td>
-                <td class="px-6 py-4">{{cursus.annee_date_fin}}</td>
+                <td class="px-6 py-4">{% if not cursus.mois_date_fin%} - {% else %} {{cursus.mois_date_fin}} {% endif %}</td>
+                <td class="px-6 py-4">{% if not cursus.annee_date_fin%} - {% else %} {{cursus.annee_date_fin}} {% endif %}</td>
                 <td class="px-6 py-4 text-right">
-                    <a href="{% url 'cursus_update' cursus.id %}" 
+                    <a href="{% url 'cursus_update' cursus.id %}"
                     class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                    Edit
+                    <i class="fa-regular fa-pen-to-square" data-ripple-light="true" data-tooltip-target="tooltip"></i>
+                     <!--Tooltip-->
+                    <div data-tooltip="tooltip"
+                         class="sr-only absolute z-50 whitespace-normal break-words rounded-lg bg-indigo-500 py-1.5 px-3 font-sans text-sm font-normal text-white focus:outline-none">
+                         Modifier
+                    </div>
                   </a>
+                  
                 </td>
             </tr>
             {% endfor %}
         </tbody>
       </table>
 </div>
+
+
 <!--div class="max-w-screen-md flex items-center mx-auto relative overflow-x-auto mt-5">
   <span class="step-links">
       {% if liste.has_previous %}
@@ -107,7 +117,7 @@
 <!--Modal-->
 <div class="flex gap-3 mb-3">
     <div data-dialog-backdrop="dialog-lg" data-dialog-backdrop-close="true"
-      class="pointer-events-none fixed inset-0 z-[999] grid h-screen w-screen place-items-center bg-black bg-opacity-60 opacity-0 backdrop-blur-sm transition-opacity duration-300">
+      class="pointer-events-none fixed inset-0 z-[999] grid overflow-y-auto w-screen place-items-center bg-black bg-opacity-60 opacity-0 backdrop-blur-sm transition-opacity duration-300">
       <div data-dialog="dialog-lg"
         class="relative m-4 w-3/5 min-w-[60%] max-w-[60%] rounded-lg bg-white font-sans text-base font-light leading-relaxed text-blue-gray-500 antialiased shadow-2xl">
         <div class="flex items-center p-4 font-sans text-2xl antialiased font-semibold leading-snug shrink-0 text-blue-gray-900">
@@ -117,7 +127,7 @@
           <form  method="post">
             {% csrf_token %} 
         
-            <div class="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div class="mt-5 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div class="sm:col-span-full">
                     <label for="etablissement" class="block text-sm font-medium leading-6 text-gray-900">Université d'accueil</label>
                     <div class="mt-2">
@@ -125,8 +135,31 @@
                     </div>
                 </div>
             </div>
+
+            <div class="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div class="sm:col-span-full">
+                    <label for="cycleselect" class="block text-sm font-medium leading-6 text-gray-900">Nom du cycle</label>
+                    <div class="mt-2">
+                        <select name="cycle" id="cycleselect" onchange="toggleCycleInput()" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+                            <option value="" {% if not form.mois_date_debut.value %}selected{% endif %}>Licence,Master...</option>
+                            {% for cycle in form.cycle.field.choices %}
+                              <option value="{{ cycle.0 }}">{{ cycle.1 }}</option>  
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-3 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div class="sm:col-span-full">
+                    <label for="cycl" class="block text-sm font-medium leading-6 text-gray-900"></label>
+                    <div class="mt-2">
+                      <input type="text" name="autre_cycle" id="cycl" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 hidden" placeholder="Entrer le nom du cycle...">
+                    </div>
+                </div>
+            </div>
         
-            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div class="mt-3 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6" id="diplome">
                 <div class="sm:col-span-full">
                     <label for="diplome" class="block text-sm font-medium leading-6 text-gray-900">Nom du diplôme</label>
                     <div class="mt-2">
@@ -198,6 +231,34 @@
     </div>
 
     
+    <script>
+        function toggleCycleInput() {
+            var select = document.getElementById('cycleselect');
+            var cycleInput = document.getElementById('cycl');
+            var diplomeDiv = document.getElementById('diplome');
+    
+            // Si l'option sélectionnée est "Autre", afficher le champ de saisie, sinon le cacher
+           // cycleInput.style.display = select.value === 'Licence' ? 'block' : 'none';
+           if (select.value === 'Autre') {
+            cycleInput.style.display = 'block';
+            cycleInput.required=true
+            diplomeDiv.style.marginTop = '8px'; // Augmentez la valeur de mt selon vos besoins
+        } else {
+            cycleInput.style.display = 'none';
+            cycleInput.required=false
+            diplomeDiv.style.marginTop = '3px'; // Réinitialisez la valeur de mt selon vos besoins
+        }
+
+        }
+    </script>
+
+
+
+<!-- from node_modules -->
+<script type="module" src="node_modules/@material-tailwind/html@latest/scripts/tooltip.js"></script>
+ 
+<!-- from cdn -->
+<script type="module" src="https://unpkg.com/@material-tailwind/html@latest/scripts/tooltip.js"></script>    
 
 <!-- from node_modules -->
 <script src="node_modules/@material-tailwind/html@latest/scripts/dialog.js"></script>

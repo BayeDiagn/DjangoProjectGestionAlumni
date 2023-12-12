@@ -21,6 +21,29 @@
 
     <div class="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
         <div class="sm:col-span-full">
+            <label for="cycle" class="block text-sm font-medium leading-6 text-gray-900">Nom du cycle</label>
+            <div class="mt-2">
+                <select name="cycle" id="cycleselect" onchange="toggleCycleInput()" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+                    <option value="" {% if not form.cycle.value %}selected{% endif %}>Licence,Master...</option>
+                    {% for cycle_value, cycle_label in form.cycle.field.choices %}
+                        <option value="{{ cycle_value }}" {% if form.cycle.value == cycle_value %}selected{% endif %}>{{ cycle_label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <div class="sm:col-span-full">
+            <label for="cycl" class="block text-sm font-medium leading-6 text-gray-900"></label>
+            <div class="mt-2">
+              {{form.autre_cycle}}
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 "id="diplome">
+        <div class="sm:col-span-full">
             <label for="diplome" class="block text-sm font-medium leading-6 text-gray-900">Nom du diplôme</label>
             <div class="mt-2">
                 {{form.diplome_name}}
@@ -84,5 +107,50 @@
     </div>
 
 </form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Appeler la fonction au chargement de la page
+        toggleInputVisibility();
+
+        // Ajouter un événement 'input' au champ autre_cycle
+        var autreCycleInput = document.getElementById('id_autre_cycle');
+        autreCycleInput.addEventListener('input', toggleInputVisibility);
+    })
+
+    function toggleInputVisibility() {
+        var inputField = document.getElementById('id_autre_cycle');
+        var diplomeDiv = document.getElementById('diplome');
+        var select = document.getElementById('cycleselect');
+
+        if (inputField.value.trim() !== '') {
+            inputField.style.display = 'block';
+            inputField.required=true
+            //diplomeDiv.style.marginTop = '18px';
+        } //else {
+            //inputField.style.display = 'none';
+            //diplomeDiv.style.marginTop = '3px';
+        //}
+
+    }
+
+    function toggleCycleInput() {
+        var select = document.getElementById('cycleselect');
+        var cycleInput = document.getElementById('id_autre_cycle');
+        var diplomeDiv = document.getElementById('diplome');
+
+       if (select.value === 'Autre') {
+        cycleInput.style.display = 'block';
+        cycleInput.required=true
+        diplomeDiv.style.marginTop = '8px'; // Augmentez la valeur de mt selon vos besoins
+    } else {
+        cycleInput.style.display = 'none';
+        cycleInput.required=false
+        diplomeDiv.style.marginTop = '8px'; // Réinitialisez la valeur de mt selon vos besoins
+    }
+
+    }
+
+</script>
 
 {% endblock %}  

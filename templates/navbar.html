@@ -11,7 +11,7 @@
 	</head>
 
 	<body>
-		<nav class="bg-indigo-900 fixed top-0 w-full z-10 mb-10">
+		<nav class="bg-indigo-800 fixed top-0 w-full z-10 mb-10">
 			<div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
 			  <div class="relative flex h-16 items-center justify-between">
 				<div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -38,32 +38,32 @@
 				  </button>
 				</div>
 			
-				<div class="flex flex-1 items-center justify-end sm:items-stretch sm:justify-start">
+				<div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
 				  <div class="hidden sm:ml-6 sm:block">
 					<div class="flex space-x-4 justify-end">
 					  <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
 					  <a href="{% url 'update' request.user.id   %}" class="{% if request.resolver_match.url_name == 'update' %}bg-indigo-700 text-white{% else %}text-gray-200 hover:bg-indigo-700 hover:text-white{% endif %} text-white rounded-md px-3 py-2 text-sm font-medium " aria-current="page">Profit</a>
 					  <a href="{% url 'liste_cursus' request.user.id %}" class="text-gray-200 hover:text-white rounded-md px-3 py-2 text-sm font-medium {% if request.resolver_match.url_name == 'liste_cursus' %}bg-indigo-700 text-white{% else %}text-gray-200 hover:bg-indigo-700 hover:text-white{% endif %}">Cursus</a>
-					  <a href="#" class="{% if request.resolver_match.url_name == 'liste_emploi' %}bg-indigo-700 text-white{% else %}text-gray-200 hover:bg-indigo-700 hover:text-white{% endif %} text-gray-200 hover:bg-indigo-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Emploi</a>
-					  <a href="#" class="{% if request.resolver_match.url_name == 'liste_competence' %}bg-indigo-700 text-white{% else %}text-gray-200 hover:bg-indigo-700 hover:text-white{% endif %} text-gray-200 hover:bg-indigo-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Compétence</a>
+					  <a href="{% url 'liste_emploi' request.user.id %}"  class="{% if request.resolver_match.url_name == 'liste_emploi' %}bg-indigo-700 text-white{% else %}text-gray-200 hover:bg-indigo-700 hover:text-white{% endif %} text-gray-200 hover:bg-indigo-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Emploi</a>
+					  <a href="{% url 'liste_competence' request.user.id %}" class="{% if request.resolver_match.url_name == 'liste_competence' %}bg-indigo-700 text-white{% else %}text-gray-200 hover:bg-indigo-700 hover:text-white{% endif %} text-gray-200 hover:bg-indigo-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Compétence</a>
 					</div>
 				  </div>
 				</div>
 				<div class="ml-30"><a href="{% url 'etudiant_home' %} ">
-					<img class="h-8 w-8 rounded-full" src="{{ request.user.photo.url }}" alt=""> 
+					<img class="h-8 w-8 rounded-full" src="{% static "images/uadb.png" %}" alt=""> 
 					</a>
 				</div>
 				
 			  </div>
 			</div>
-		  
+			<!--a href="{% url 'liste_emploi' request.user.id %}" class="{% if request.resolver_match.url_name == 'liste_emploi' %}bg-indigo-700 text-white{% else %}text-gray-200 hover:bg-indigo-700 hover:text-white{% endif %} text-gray-200 hover:bg-indigo-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Emploi</a-->
 			<!-- Mobile menu, show/hide based on menu state. -->
 			<div class="sm:hidden" id="mobile-menu">
 			  <div class="space-y-1 px-2 pb-3 pt-2">
 				<!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
 				<a href="{% url 'update' request.user.id   %}" class="{% if request.resolver_match.url_name == 'update' %}bg-indigo-700 text-white{% else %}text-gray-200 hover:bg-indigo-700 hover:text-white{% endif %} text-white rounded-md px-3 py-2 text-sm font-medium " aria-current="page">Profit</a>
 				<a href="{% url 'liste_cursus' request.user.id %}" class="text-gray-200 hover:text-white rounded-md px-3 py-2 text-sm font-medium {% if request.resolver_match.url_name == 'liste_cursus' %}bg-indigo-700 text-white{% else %}text-gray-200 hover:bg-indigo-700 hover:text-white{% endif %}">Cursus</a>
-				<a href="#" class="{% if request.resolver_match.url_name == 'liste_emploi' %}bg-indigo-700 text-white{% else %}text-gray-200 hover:bg-indigo-700 hover:text-white{% endif %} text-gray-200 hover:bg-indigo-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Emploi</a>
+				<a href="{% url 'liste_emploi' request.user.id %}" class="{% if request.resolver_match.url_name == 'liste_emploi' %}bg-indigo-700 text-white{% else %}text-gray-200 hover:bg-indigo-700 hover:text-white{% endif %} text-gray-200 hover:bg-indigo-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Emploi</a>
 				<a href="#" class="{% if request.resolver_match.url_name == 'liste_competence' %}bg-indigo-700 text-white{% else %}text-gray-200 hover:bg-indigo-700 hover:text-white{% endif %} text-gray-200 hover:bg-indigo-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Compétence</a>
 			  </div>
 			</div>

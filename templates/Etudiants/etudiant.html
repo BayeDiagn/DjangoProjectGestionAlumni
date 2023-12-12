@@ -1,0 +1,394 @@
+{% extends "template_base.html" %}
+
+{% load static %}
+
+{% block contenu %} 
+
+<div id="colorlib-page">
+    <div class="container-wrap">
+    <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><i></i></a>
+    <aside id="colorlib-aside" role="complementary" class="border js-fullheight">
+        <div class="text-center">
+            {% if chemin_photo_profil %}
+                <div class="author-img" style="background-image: url({{ chemin_photo_profil }});"></div>
+            {% else %}
+                <div class="author-img" style="background-image: url({% static "images/uadb.png" %});"></div>
+            {% endif %}
+            <h1 id="colorlib-logo">
+                <a href="#" title="Modifier mon profit" style="color:#08BCEF">{{ etudiant.first_name }} {{ etudiant.last_name }} <!--i class="fa-classic fa-pen-to-square " style="color:GRAY; font-size:14px;"  ></i-->
+                 </a>
+            </h1>
+            <span class="position">      
+                <p style="color:#00000;font-weight:500">
+                    {{ etudiant.profession }} {% if etudiant.profession_upper == "ETUDIANT" or etudiant.profession_upper == "ETUDIANTE" or etudiant.profession_upper == "ÉTUDIANTE" or etudiant.profession_upper == "ÉTUDIANT" %} en {{ etudiant.niveau_actuel }} {% endif %}
+                </p>
+            </span>      
+         
+        </div>
+        <nav id="colorlib-main-menu" role="navigation" class="navbar">
+            <div id="navbar" class="collapse">
+                <ul>
+                    <li class="active"><a href="#" data-nav-section="home">Accueil</a></li>
+                    <li><a href="#" data-nav-section="about">A Propos </a></li>
+                    <li><a href="#" data-nav-section="services">Compétences</a></li>
+                    <li><a href="#" data-nav-section="skills">Niveau de compétences</a></li>
+                    <li><a href="#" data-nav-section="education">Cursus</a></li>
+                    <li><a href="#" data-nav-section="experience">Experiences</a></li>
+                    <li><a href="#" data-nav-section="contact">Contact</a></li> 
+                   
+                </ul>
+            </div>
+            <!--ul>
+                <li><a href="{% url 'liste_etudiant' request.user.id %}">Etudiants</a></li> 
+                <li><a href="{% url 'deconnexion' %} ">Se déconnecter</a></li>
+            </ul-->
+        </nav>
+
+
+        <div class="colorlib-footer pt-10">
+            
+            <p class="pt-20"><small>&copy;Copyright <script>document.write(new Date().getFullYear());</script> All rights reserved.</p>
+
+            <!--ul>
+                <li><a href="#"><i class="icon-facebook2"></i></a></li>
+                <li><a href="#"><i class="icon-twitter2"></i></a></li>
+                <li><a href="#"><i class="icon-instagram"></i></a></li>
+                <li><a href="#"><i class="icon-linkedin2"></i></a></li>
+            </ul-->
+        </div>
+
+    </aside>
+
+    <div id="colorlib-main">
+        <section id="colorlib-hero" class="js-fullheight" data-section="home">
+            <div class="flexslider js-fullheight">
+                <ul class="slides">
+                    {% if chemin_photo_couverture1 %}
+                   <!--li style="background-image: url({{ request.user.couverture.url }});background-size: cover; background-position: center top; width: 1300px;
+                   height: 820px;"-->
+
+                   <li style="background-image: url({{ chemin_photo_couverture1 }});background-size: cover; background-position: center top; width: 1300px;
+                   height: 820px;">
+
+                   {% else %}
+                   <li style="background-image: url({{ chemin_photo_couverture1 }});background-size: cover; background-position: center top; width: 1300px;
+                   height: 820px;">
+                   {% endif %}
+                       <div class="overlay"></div>
+                       <div class="container-fluid">
+                           <div class="row">
+                               <div class="col-md-6 col-md-offset-3 col-md-pull-3 col-sm-12 col-xs-12 js-fullheight slider-text">
+                                   <div class="slider-text-inner js-fullheight">
+                                       <div class="desc">
+                                           <h1>Bonjour ! <br>Je suis {{ etudiant.first_name }} {{ etudiant.last_name}} </h1>
+                                            <p><a class="btn btn-primary btn-learn">Download CV <i class="icon-download4"></i></a></p>
+                                        </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </li>
+                   
+                   {% if chemin_photo_couverture2 %}
+                   <li style="background-image: url({{ chemin_photo_couverture2 }}); background-size: cover; background-position: center top; width: 1300px;
+                        height: 820px;">
+                    {% else %}
+                    <li style="background-image: url({{ chemin_photo_couverture1 }});background-size: cover; background-position: center top; width: 1300px;
+                    height: 820px;">
+                    {% endif %}
+                       <div class="overlay"></div>
+                       <div class="container-fluid">
+                           <div class="row">
+                               <div class="col-md-7 col-md-offset-3 col-md-pull-3 col-sm-12 col-xs-12 js-fullheight slider-text">
+                                   <div class="slider-text-inner">
+                                       <div class="desc"style="width:100%">
+                                           <h1>Je suis <br>{{ etudiant.profession }}  
+                                            {% if etudiant.profession_upper == "ETUDIANT" or etudiant.profession_upper == "ETUDIANTE" or etudiant.profession_upper == "ÉTUDIANTE" or etudiant.profession_upper == "ÉTUDIANT" %} en {{ etudiant.niveau_actuel }} {% endif %}
+                                            </h1>
+                                           <p><a class="btn btn-primary btn-learn">Download CV <i class="icon-download4"></i></a></p>
+                                        </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </li>
+                  </ul>
+              </div>
+        </section>
+
+        <section class="colorlib-about" data-section="about">
+            <div class="colorlib-narrow-content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row row-bottom-padded-sm animate-box" data-animate-effect="fadeInLeft">
+                            <div class="col-md-12">
+                                <div class="about-desc">
+                                    <span class="heading-meta"></span>
+                                    <h2 class="colorlib-heading">Qui suis-je?</h2>
+                                    <p> {{etudiant.about}} </p>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 animate-box" data-animate-effect="fadeInLeft">
+                                <div class="services color-1">
+                                    <span class="icon2"><i class="icon-bulb"></i></span>
+                                    <h3>Graphic Design</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-3 animate-box" data-animate-effect="fadeInRight">
+                                <div class="services color-2">
+                                    <span class="icon2"><i class="icon-globe-outline"></i></span>
+                                    <h3>Web Design</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-3 animate-box" data-animate-effect="fadeInTop">
+                                <div class="services color-3">
+                                    <span class="icon2"><i class="icon-data"></i></span>
+                                    <h3>Software</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-3 animate-box" data-animate-effect="fadeInBottom">
+                                <div class="services color-4">
+                                    <span class="icon2"><i class="icon-phone3"></i></span>
+                                    <h3>Application</h3>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% if competences %}
+        <section class="colorlib-services" data-section="services">
+            <div class="colorlib-narrow-content">
+                <div class="row">
+                    
+                    <div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
+                        <span class="heading-meta">Que fais-je ?</span>
+                        <h2 class="colorlib-heading">Voici une partie de mes compétences</h2>
+                    </div>
+                   
+                </div>
+                <div class="row row-pt-md">
+                    {% for competence in competences %}
+                    <div class="col-md-4 text-center animate-box">
+                        <div class="services h-100 color-{{ forloop.counter }}" style="height: 40vh">
+                            <span class="icon">
+                                <i class="icon-bulb"></i>
+                            </span>
+                            <div class="desc">
+                                <h3>{{competence.nom}}</h3>
+                                {% if competence.description %}
+                                    {{ competence.description }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        {% if competences %}
+        <section class="colorlib-skills" data-section="skills">
+            <div class="colorlib-narrow-content">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
+                        <span class="heading-meta" style="padding-bottom: 60px;"> Niveau de mes Compétences</span>
+                        <!--h2 class="colorlib-heading animate-box">My Skills</h2-->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 animate-box" data-animate-effect="fadeInLeft">
+                        <p style="padding-bottom: 40px;">
+                            Fort d'un parcours enrichissant, j'ai développé une expertise approfondie dans plusieurs 
+                            compétences clés au fil de mes expériences. Les projets stimulants auxquels j'ai participé ont 
+                            consolidé mes connaissances théoriques et pratiques, me permettant aujourd'hui de maîtriser les 
+                            meilleures pratiques dans mes domaines d'expertise. Mes talents multiples démontrent mon 
+                            efficacité dans divers contextes, avec un impact positif au sein des équipes. Motivé par les 
+                            défis, je suis prêt à mettre à profit mon plein potentiel dans de nouvelles opportunités pour 
+                            poursuivre ma progression. Pour illustrer visuellement l'étendue de mes savoir-faire, je les 
+                            présente ici sous forme de barres de progression résumant mon niveau dans chaque compétence.
+                        </p>
+                    </div>
+
+                    {% for competence in competences %}
+                    <div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
+                        <div class="progress-wrap">
+                            <h3>{{competence.nom}}</h3> &nbsp; 
+                            <div class="progress">
+                                 <div class="progress-bar color-{{forloop.counter}}" role="progressbar" aria-valuenow="{{competence.pourcentage}}"
+                                  aria-valuemin="0" aria-valuemax="100" style="width:{{competence.pourcentage}}%">
+                                <span>{{competence.pourcentage}}%</span>
+                                  </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        <section class="colorlib-education" data-section="education">
+            <div class="colorlib-narrow-content">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
+                        <span class="heading-meta">Formations</span>
+                        <h2 class="colorlib-heading animate-box">Formations</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 animate-box" data-animate-effect="fadeInLeft">
+                        <div class="fancy-collapse-panel">
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">                         
+                                <div id="accordion" role="tablist">
+                                    {% for cursus in cursus %}
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="headingOne{{ forloop.counter }}">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne{{ forloop.counter }}" aria-expanded="true" aria-controls="collapseOne{{ forloop.counter }}">
+                                                    {{ cursus.diplome_name }}
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseOne{{ forloop.counter }}" class="panel-collapse collapse {% if forloop.first %} in{% endif %}" role="tabpanel" aria-labelledby="headingOne{{ forloop.counter }}">
+                                             <div class="panel-body">
+                                                <div class="row">
+                                                      <div class="col-md-6">
+                                                          <strong>{{ cursus.annee_date_debut }}-{{ cursus.annee_date_fin }}</strong><br>       
+                                                          {{ cursus.diplome_name }} Tolerably earnestly middleton extremely distrusts she boy now not.   ({{ cursus.etablissement }})
+                                                          
+                                                      </div>
+                                                      <div class="col-md-6">
+                                                        
+                                                      </div>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>                              
+                            </div>
+                        </div>
+                    </div>
+                </div>       
+            </div>
+        </section>
+
+        {% if emploi %}
+        <section class="colorlib-experience" data-section="experience">
+            <div class="colorlib-narrow-content">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
+                        <span class="heading-meta">Experience</span>
+                        <h2 class="colorlib-heading animate-box">Expérience Professionnelle</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                     <div class="timeline-centered">
+                        {% for emploi in emploi %}
+
+                        <article class="timeline-entry animate-box" data-animate-effect="fadeInLeft">
+                            <div class="timeline-entry-inner">
+
+                               <div class="timeline-icon color-{{ forloop.counter }}">
+                                  <i class="icon-pen2"></i>
+                               </div>
+
+                               <div class="timeline-label">
+                                  <h2> {{ emploi.poste }} chez {{ emploi.entreprise }} &nbsp;&nbsp; <span>{{ emploi.mois_date_debut }}/{{ emploi.annee_date_debut }} - {{ emploi.mois_date_fin }}/{{ emploi.annee_date_fin }}</span></h2>
+                                  <p><strong>Type de Contrat : &nbsp;&nbsp;</strong><span style="color: gray; font-weight: 900;">{{ emploi.typecont }}</span></p>
+                                  
+                                 {% if emploi.description %}
+                                    <i> {{ emploi.description }}</i>
+                                 {% endif %}
+                               </div>
+                            </div>
+                        </article>
+
+                        {% endfor %}
+                      </div>
+                   </div>
+               </div>
+            </div>
+        </section>
+        {% endif %}
+
+        <section class="colorlib-contact" data-section="contact">
+            <div class="colorlib-narrow-content">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
+                        <span class="heading-meta">Contactez-nous</span>
+                        <h2 class="colorlib-heading">Contact</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="colorlib-feature colorlib-feature-sm animate-box" data-animate-effect="fadeInLeft">
+                            <div class="colorlib-icon">
+                                <i class="icon-globe-outline"></i>
+                            </div>
+                            <div class="colorlib-text">
+                                <p><a href="#">{{etudiant.email}}</a></p>
+                            </div>
+                        </div>
+
+                        <div class="colorlib-feature colorlib-feature-sm animate-box" data-animate-effect="fadeInLeft">
+                            <div class="colorlib-icon">
+                                <i class="icon-map"></i>
+                            </div>
+                            <div class="colorlib-text">
+                                <p>{{etudiant.adresse}}</p>
+                            </div>
+                        </div>
+
+                        <div class="colorlib-feature colorlib-feature-sm animate-box" data-animate-effect="fadeInLeft">
+                            <div class="colorlib-icon">
+                                <i class="icon-phone"></i>
+                            </div>
+                            <div class="colorlib-text">
+                                <p><a href="tel://">{{etudiant.tel}}</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7 col-md-push-1">
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1 col-md-pull-1 animate-box" data-animate-effect="fadeInRight">
+                                <form action="">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Prénom et Nom">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Email">
+                                    </div>
+                                    <!--div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Objet">
+                                    </div-->
+                                    <div class="form-group">
+                                        <textarea name="" id="message" cols="30" rows="7" class="form-control" placeholder="Message"></textarea>
+                                    </div>
+                                    <div class="form-group mt-15 pt-20">
+                                        <input type="submit" class="btn btn-primary btn-send-message" value="Send Message">
+                                    </div>
+                                </form>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div><!-- end:colorlib-main -->
+</div><!-- end:container-wrap -->
+</div><!-- end:colorlib-page -->
+
+{% endblock %}

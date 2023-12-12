@@ -1,0 +1,43 @@
+{% extends "index.html" %}
+
+
+{% block contenu %} 
+{% include 'navbar.html' %}
+
+<form class="mt-10 sm:mx-auto sm:w-full sm:max-w-lg"  method="post">
+    {% csrf_token %} 
+    <!--div class="sm:mx-auto sm:w-full sm:max-w-sm">
+        <h2 class="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-500">Votre Cursus</h2>
+      </div-->
+
+    <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 pt-20">
+        <div class="sm:col-span-full">
+            <label for="etablissement" class="block text-sm font-medium leading-6 text-gray-900">Nom du compétence</label>
+            <div class="mt-2">
+                {{form.nom}}
+            </div>
+        </div>
+    </div>
+
+        <div class="sm:col-span-full mt-8">
+            <label for="diplome" class="block text-sm font-medium leading-6 text-gray-900">Niveau de maîtrise</label>
+            <div class="mt-2">
+                {{form.pourcentage}}
+            </div>
+        </div>
+
+        <div class="sm:col-span-full mt-8">
+            <div class="mt-2">
+                {{form.description}}
+            </div>
+        </div>
+    
+    <div class="mt-20 mb-20 pt-2 flex items-center justify-end gap-x-6 mx-auto">
+        <button type="submit"class="middle none center mr-4 rounded-lg bg-green-400 py-3 px-6 font-sans text-xs font-bold uppercase text-white transition-all hover:shadow-lg hover:shadow-green-400/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.65] active:shadow-none disabled:pointer-events-none">
+        Enregistrer
+        </button>
+    </div>
+
+</form>
+
+{% endblock %}  

@@ -1,0 +1,102 @@
+{% extends "index.html" %}
+
+
+{% block contenu %} 
+{% include 'navbar.html' %}
+
+<form class="mt-10 sm:mx-auto sm:w-full sm:max-w-lg"  method="post">
+    {% csrf_token %} 
+    <!--div class="sm:mx-auto sm:w-full sm:max-w-sm">
+        <h2 class="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-500">Votre Cursus</h2>
+      </div-->
+
+    <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 pt-20">
+        <div class="sm:col-span-full">
+            <label for="etablissement" class="block text-sm font-medium leading-6 text-gray-900">Nom de l'entreprise</label>
+            <div class="mt-2">
+                {{form.entreprise}}
+            </div>
+        </div>
+    </div>
+
+        <div class="sm:col-span-full mt-8">
+            <label for="diplome" class="block text-sm font-medium leading-6 text-gray-900">Type de contrat</label>
+            <div class="mt-2">
+                {{form.typecont}}
+            </div>
+        </div>
+
+        <div class="sm:col-span-full mt-8">
+            <label for="diplome" class="block text-sm font-medium leading-6 text-gray-900">Intitulé de poste</label>
+            <div class="mt-2">
+                {{form.poste}}
+            </div>
+        </div>
+
+        <div class="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <div class="sm:col-span-3">
+            <label for="moisdatedebut" class=" block text-sm font-medium leading-6 text-gray-900">Date de debut</label>
+            <div class="mt-2">
+                <select name="mois_date_debut" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+                    <option value="" {% if not form.mois_date_debut.value %}selected{% endif %}>Mois</option>
+                    {% for mois_value, mois_label in form.mois_date_debut.field.choices %}
+                        <option value="{{ mois_value }}" {% if form.mois_date_debut.value == mois_value %}selected{% endif %}>{{ mois_label }}</option>
+                    {% endfor %}
+                </select>
+                
+            </div>
+        </div>
+
+        <div class="sm:col-span-3">
+            <div class="mt-8">
+                <select name="annee_date_debut" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+                    <option value="" {% if not form.annee_date_fin.value %}selected{% endif %}>Année</option>
+                    {% for annee_value, annee_label in form.annee_date_debut.field.choices %}
+                        <option value="{{ annee_value }}" {% if form.annee_date_debut.value == annee_value %}selected{% endif %}>{{ annee_label }}</option>
+                    {% endfor %}
+                </select>
+                
+            </div>
+         </div>
+
+         <div class="sm:col-span-3">
+            <label for="moisdatefin" class="block text-sm font-medium leading-6 text-gray-900">Date de fin</label>
+            <div class="mt-2">
+                <select name="mois_date_fin" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+                    <option value="" {% if not form.mois_date_debut.value %}selected{% endif %}>Mois</option>
+                    {% for mois_value, mois_label in form.mois_date_fin.field.choices %}
+                        <option value="{{ mois_value }}" {% if form.mois_date_fin.value == mois_value %}selected{% endif %}>{{ mois_label }}</option>
+                    {% endfor %}
+                </select>
+                
+            </div>
+        </div>
+
+        <div class="sm:col-span-3">
+            <div class="mt-8">
+                <select name="annee_date_fin" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+                    <option value="" {% if not form.annee_date_fin.value %}selected{% endif %}>Année</option>
+                    {% for annee_value, annee_label in form.annee_date_fin.field.choices %}
+                        <option value="{{ annee_value }}" {% if form.annee_date_fin.value == annee_value %}selected{% endif %}>{{ annee_label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="sm:col-span-full">
+            <div class="mt-5 pt-4">
+              {{form.description}}
+            </div>
+        </div>  
+
+    </div>
+    
+    <div class="mt-20 mb-20 pt-2 flex items-center justify-end gap-x-6 mx-auto">
+        <button type="submit"class="middle none center mr-4 rounded-lg bg-green-400 py-3 px-6 font-sans text-xs font-bold uppercase text-white transition-all hover:shadow-lg hover:shadow-green-400/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.65] active:shadow-none disabled:pointer-events-none">
+        Enregistrer
+        </button>
+    </div>
+
+</form>
+
+{% endblock %}  

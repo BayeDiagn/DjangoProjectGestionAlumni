@@ -81,7 +81,7 @@
                                    <div class="slider-text-inner js-fullheight">
                                        <div class="desc">
                                            <h1>Bonjour ! <br>Je suis {{ etudiant.first_name }} {{ etudiant.last_name}} </h1>
-                                            <p><a class="btn btn-primary btn-learn">Download CV <i class="icon-download4"></i></a></p>
+                                            <p><a class="btn btn-primary btn-learn">Voir le CV <i class="icon-download4"></i></a></p>
                                         </div>
                                    </div>
                                </div>
@@ -105,7 +105,7 @@
                                            <h1>Je suis <br>{{ etudiant.profession }}  
                                             {% if etudiant.profession_upper == "ETUDIANT" or etudiant.profession_upper == "ETUDIANTE" or etudiant.profession_upper == "ÉTUDIANTE" or etudiant.profession_upper == "ÉTUDIANT" %} en {{ etudiant.niveau_actuel }} {% endif %}
                                             </h1>
-                                           <p><a class="btn btn-primary btn-learn">Download CV <i class="icon-download4"></i></a></p>
+                                           <p><a class="btn btn-primary btn-learn">Voir le CV <i class="icon-download4"></i></a></p>
                                         </div>
                                    </div>
                                </div>
@@ -175,7 +175,7 @@
                 <div class="row row-pt-md">
                     {% for competence in competences %}
                     <div class="col-md-4 text-center animate-box">
-                        <div class="services h-100 color-{{ forloop.counter }}" style="height: 40vh">
+                        <div class="services h-100 color-{{ forloop.counter }}" style="height: 45vh">
                             <span class="icon">
                                 <i class="icon-bulb"></i>
                             </span>

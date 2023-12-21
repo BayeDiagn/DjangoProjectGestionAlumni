@@ -41,12 +41,14 @@ for annee in range(start_year, end_year+8):
     ANNEES.append((str(annee), str(annee)))
     
 #print(ANNEES)
+contrat=[('Stage','Stage'),('CDD','CDD'),('CDI','CDI'),('Intérim','Intérim'),
+         ('Apprentissage','Apprentissage'),('Professionnalisation','Professionnalisation'),('Freelance','Freelance')]
 
 
 
 class Emploi(models.Model):
     entreprise=models.CharField(null=True,max_length=200)
-    typecont=models.CharField(null=True,max_length=200)
+    typecont=models.CharField(choices=contrat, max_length=200)
     poste=models.CharField(null=True,max_length=200)
     mois_date_debut=models.CharField(max_length=20, choices=MOIS_CHOICES)
     annee_date_debut=models.CharField(max_length=40, choices=ANNEES)
@@ -58,3 +60,9 @@ class Emploi(models.Model):
 
     def __str__(self):
         return f"{self.etudiant.first_name} {self.etudiant.last_name} (Emploi)"
+    
+    
+    
+    @property
+    def entreprise_lower(self):
+        return self.entreprise.lower()

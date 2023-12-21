@@ -15,14 +15,14 @@
                 <div class="author-img" style="background-image: url({% static "images/uadb.png" %});"></div>
             {% endif %}
             <h1 id="colorlib-logo">
-                <a href="{% url 'update'  request.user.id   %} " title="Modifier mon profit" style="color:#08BCEF">{{ request.user }} <i class="fa-classic fa-pen-to-square " style="color:GRAY; font-size:14px;"  ></i>
+                <a href="{% url 'update'  request.user.id   %} " title="Modifier mon profit" style="color:#08BCEF">{{ request.user.first_name }} {{ request.user.last_name }} <i class="fa-classic fa-pen-to-square " style="color:GRAY; font-size:14px;"  ></i>
                  </a>
             </h1>
             <span class="position">      
                 <p style="color:#00000;font-weight:500">
-                    {{ request.user.profession }}
+                    {{ request.user.etudiant.profession }}
                     {% if user_profession_upper == "ETUDIANT" or user_profession_upper == "ETUDIANTE"%}
-                        en {{ request.user.niveau_actuel }}
+                        en {{ request.user.etudiant.niveau_actuel }}
                     {% endif %}
                 </p>
             </span>      
@@ -83,8 +83,8 @@
                                <div class="col-md-6 col-md-offset-3 col-md-pull-3 col-sm-12 col-xs-12 js-fullheight slider-text">
                                    <div class="slider-text-inner js-fullheight">
                                        <div class="desc">
-                                           <h1>Bonjour ! <br>Je suis {{ request.user }}</h1>
-                                            <p><a class="btn btn-primary btn-learn">Download CV <i class="icon-download4"></i></a></p>
+                                           <h1>Bonjour ! <br>Je suis {{ request.user.etudiant.first_name }} {{ request.user.etudiant.last_name }}</h1>
+                                            <p><a class="btn btn-primary btn-learn">Voir le CV <i class="icon-download4"></i></a></p>
                                         </div>
                                    </div>
                                </div>
@@ -105,11 +105,11 @@
                                <div class="col-md-7 col-md-offset-3 col-md-pull-3 col-sm-12 col-xs-12 js-fullheight slider-text">
                                    <div class="slider-text-inner">
                                        <div class="desc"style="width:100%">
-                                           <h1>Je suis <br>{{ request.user.profession }}  
+                                           <h1>Je suis <br>{{ request.user.etudiant.profession }}  
                                                 {% if user_profession_upper == "ETUDIANT" or user_profession_upper == "ETUDIANTE"%}
-                                                    en {{ request.user.niveau_actuel }}
+                                                    en {{ request.user.etudiant.niveau_actuel }}
                                                 {% endif %}</h1>
-                                           <p><a class="btn btn-primary btn-learn">Download CV <i class="icon-download4"></i></a></p>
+                                           <p><a class="btn btn-primary btn-learn">Voir le CV <i class="icon-download4"></i></a></p>
                                         </div>
                                    </div>
                                </div>
@@ -129,7 +129,7 @@
                                 <div class="about-desc">
                                     <span class="heading-meta"></span>
                                     <h2 class="colorlib-heading">Qui suis-je?</h2>
-                                    <p> {{request.user.about}} </p>
+                                    <p> {{request.user.etudiant.about}} </p>
                                     
                                 </div>
                             </div>
@@ -179,7 +179,7 @@
                 <div class="row row-pt-md">
                     {% for competence in competences %}
                     <div class="col-md-4 text-center animate-box">
-                        <div class="services h-100 color-{{ forloop.counter }}" style="height: 40vh">
+                        <div class="services h-150 color-{{ forloop.counter }}" style="height: 45vh">
                             <span class="icon">
                                 <i class="icon-bulb"></i>
                             </span>
@@ -350,7 +350,7 @@
                                 <i class="icon-map"></i>
                             </div>
                             <div class="colorlib-text">
-                                <p>{{request.user.adresse}}</p>
+                                <p>{{request.user.etudiant.adresse}}</p>
                             </div>
                         </div>
 
@@ -359,7 +359,7 @@
                                 <i class="icon-phone"></i>
                             </div>
                             <div class="colorlib-text">
-                                <p><a href="tel://">{{request.user.tel}}</a></p>
+                                <p><a href="tel://">{{request.user.etudiant.tel}}</a></p>
                             </div>
                         </div>
                     </div>

@@ -19,7 +19,12 @@
         <div class="sm:col-span-full">
             <label for="typec" class="block text-sm font-medium leading-6 text-gray-900">Type de Contrat</label>
             <div class="mt-2">
-              <input type="text" name="typecont" id="typec" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+                <select name="typecont"  autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+                    <option value="" {% if not form.typecont.value %}selected{% endif %} class="text-gray-300">Stage, CDD...</option>
+                    {% for typec in form.typecont.field.choices %}
+                      <option value="{{ typec.0 }}">{{ typec.1 }}</option>  
+                    {% endfor %}
+                </select>
             </div>
         </div>
 

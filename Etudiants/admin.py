@@ -6,7 +6,7 @@ from competence.models import Competence
 from Etudiants.models import Etudiant, PhotoCouverture, PhotoProfil
 
 # Register your models here.
-#admin.site.register(Etudiant) on peux faire ça
+#admin.site.register(Etudiant) 
 
 
 #@admin.register(Etudiant,AUTRE MODEL)  # SI J'AVAIS UN AUTRE MODEL JE PEUX L'AJOUTER

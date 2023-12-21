@@ -13,7 +13,11 @@ from django.db.models import OuterRef, Subquery
 from django.db.models import Q,F
 from django.core.paginator import Paginator
 from django.contrib.auth.hashers import make_password
-import hashlib
+from django.contrib.auth.views import PasswordResetView,PasswordResetDoneView,LoginView
+from django.contrib.auth.forms import PasswordResetForm
+from django.urls import reverse, reverse_lazy
+from django.db.models import Count
+from django.contrib.auth.decorators import user_passes_test
 
 
 
@@ -33,28 +37,34 @@ import hashlib
 
 
 
+
+def personnel_required(view_func):
+    decorated_view_func = user_passes_test(
+        lambda user: user.is_authenticated and user.is_etudiant,
+        login_url='login'
+    )(view_func)
+    return decorated_view_func
+
+
+@personnel_required
 @login_required
 def etudiant_home(request):
     user = request.user
     cursus = Cursus.objects.filter(etudiant=user.id)
     emploi = Emploi.objects.filter(etudiant=user.id)
     competences = Competence.objects.filter(etudiant=user.id)
-    user_profession_upper = request.user.profession.upper()
+    user_profession_upper = request.user.etudiant.profession.upper()
     
     photo_profil = PhotoProfil.objects.filter(etudiant=user.id).last()
     photo_couvertures1 = PhotoCouverture.objects.filter(etudiant=user.id).last()
     photo_couvertures2= PhotoCouverture.objects.filter(etudiant=user.id).order_by('-id')
-
-
+   
     chemin_photo_profil = photo_profil.profil.url
-    
-    
     chemin_photo_couverture1 = photo_couvertures1.couverture.url if photo_couvertures1 else None
-    
     photo_couverture2 = photo_couvertures2[1] if len(photo_couvertures2) > 1 else None
     chemin_photo_couverture2 = photo_couverture2.couverture.url if photo_couverture2 else None
     #nbre=Cursus.objects.count();
-    
+    #print(.count())
    
     context={"cursus":cursus,"emploi":emploi,"competences":competences,"user_profession_upper":user_profession_upper,"chemin_photo_profil":chemin_photo_profil,"chemin_photo_couverture1":chemin_photo_couverture1,"chemin_photo_couverture2":chemin_photo_couverture2}
     return render(request, "Etudiants/etudiant_home.html",context)
@@ -108,11 +118,12 @@ def etudiant_login(request):
 #view de deconnexion
 def etudiant_logout(request):
     logout(request)
+    
     return redirect("login")
 
 #view update
 def etudiant_update(request,pk):
-    #user=request.user
+    user=request.user
     etudiant=Etudiant.objects.get(id=pk)
     
     form = EtudiantFormUpdate(instance=etudiant)
@@ -138,17 +149,19 @@ def etudiant_update(request,pk):
             photo_couverture.etudiant = etudiant
             photo_couverture.save()
             #return redirect("/")
+    
             
         
-    context={"form":form,"photo_profil_form": photo_profil_form,"photo_couverture_form": photo_couverture_form,"etudiant":etudiant}
+    context={"form":form,"photo_profil_form": photo_profil_form,
+             "photo_couverture_form": photo_couverture_form,"etudiant":etudiant,
+             }
     return render(request, "Etudiants/modifier.html",context)
 
 
 
 def liste_etudiant(request,pk):
-    user = request.user
     #user_id=user.id
-    user=user.code_permenant[:2]
+    user=user.etudiant.code_permenant[:2]
     etudiants = Etudiant.objects.exclude(id__in=[1]).order_by(   
         Case(
             When(code_permenant__startswith=user, then=0),
@@ -159,7 +172,9 @@ def liste_etudiant(request,pk):
     photos=PhotoProfil.objects.all()
     cursus = Cursus.objects.all() 
     
-   
+    #mot_de_passe_en_clair = "123"
+    #mot_de_passe_crypte = make_password(mot_de_passe_en_clair)
+    #print(mot_de_passe_crypte)
     
     p=Paginator( etudiants,6)
     page=request.GET.get('page')
@@ -204,3 +219,22 @@ def etudiant_page(request,pk):
     context={"etudiant":etudiant,"cursus":cursus,"emploi":emploi,"competences":competences,"chemin_photo_profil":chemin_photo_profil,"chemin_photo_couverture1":chemin_photo_couverture1,"chemin_photo_couverture2":chemin_photo_couverture2}
     
     return render(request,'Etudiants/etudiant.html',context)
+
+
+class MyPasswordRestView(PasswordResetView):
+    form_class=PasswordResetForm #on peut l'ometre
+    template_name='Etudiants/foget_password.html'
+    #form_class=MyPasswordChangeForm
+    #success_url=reverse_lazy('login')
+    
+class MyPasswordResetDoneView(PasswordResetDoneView):
+    form_class=PasswordResetForm
+    template_name='Etudiants/sent_email_password.html'
+    
+class EtudiantLoginView(LoginView):
+    template_name = "Etudiants/login.html"
+    
+    def get_success_url(self):
+        return reverse_lazy('etudiant_home')
+    
+    

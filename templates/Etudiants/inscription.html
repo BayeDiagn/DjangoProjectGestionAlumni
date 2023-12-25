@@ -2,67 +2,93 @@
 
 
 {% block contenu %}
-    
+    <!--div>
     {% if form.errors %}
         {{ form.errors }}
     {% endif %}
+    </div-->
+
 <form class="container mx-auto px-4" method="post" enctype="multipart/form-data">
     {% csrf_token %} 
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div class="sm:col-span-3">
             <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Prénom</label>
             <div class="mt-2">
-              <input type="text" name="first_name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+              <input type="text" name="first_name" id="first-name" value="{{ request.POST.first_name }}" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
             </div>
+            {% if form.first_name.errors %}
+            <p class="text-red-500 text-xs italic pt-2">{{ form.first_name.errors.0 }}</p>  
+            {% endif %}
           </div>
   
           <div class="sm:col-span-3">
             <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Nom</label>
             <div class="mt-2">
-              <input type="text" name="last_name" id="last-name" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+              <input type="text" name="last_name" id="last-name" value="{{ request.POST.last_name }}" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
             </div>
+            {% if form.last_name.errors %}
+            <p class="text-red-500 text-xs italic pt-2">{{ form.last_name.errors.0 }}</p>  
+            {% endif %}
           </div>
 
           <div class="sm:col-span-3">
             <label for="cp" class="block text-sm font-medium leading-6 text-gray-900">Code permenant</label>
             <div class="mt-2">
-              <input type="text" name="code_permenant" id="cp" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+              <input type="text" name="code_permenant" id="cp" value="{{ request.POST.code_permenant }}" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
             </div>
+            {% if form.code_permenant.errors %}
+            <p class="text-red-500 text-xs italic pt-2">{{ form.code_permenant.errors.0 }}</p>  
+            {% endif %}
           </div>
   
           <div class="sm:col-span-3">
             <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Adresse email</label>
             <div class="mt-2">
-              <input id="email" name="email" type="email" autocomplete="email" placeholder:text-gray-400 placeholder="exemple@gmail.com" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+              <input id="email" name="email" type="email" value="{{ request.POST.email }}" autocomplete="email" placeholder:text-gray-400 placeholder="exemple@gmail.com" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
             </div>
+            {% if form.email.errors %}
+            <p class="text-red-500 text-xs italic pt-2">{{ form.email.errors.0 }}</p>  
+            {% endif %}
           </div>
   
           <div class="col-span-3">
             <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">Adresse domicile</label>
             <div class="mt-2">
-              <input type="text" name="adresse" id="street-address" autocomplete="street-address" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+              <input type="text" name="adresse" id="street-address" value="{{ request.POST.adresse }}" autocomplete="street-address" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
             </div>
+            {% if form.adresse.errors %}
+            <p class="text-red-500 text-xs italic pt-2">{{ form.adresse.errors.0 }}</p>  
+            {% endif %}
           </div>
 
           <div class="col-span-3">
             <label for="phone" class="block text-sm font-medium leading-6 text-gray-900">Téléphone</label>
             <div class="mt-2">
-              <input type="text" name="tel" id="phone" autocomplete="street-address" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+              <input type="text" name="tel" id="phone" value="{{ request.POST.tel }}" autocomplete="street-address" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
             </div>
+            {% if form.tel.errors %}
+            <p class="text-red-500 text-xs italic pt-2">{{ form.tel.errors.0 }}</p>  
+            {% endif %}
           </div>
 
           <div class="col-span-3">
             <label for="profession" class="block text-sm font-medium leading-6 text-gray-900">Niveau actuel</label>
             <div class="mt-2">
-              <input type="text" name="niveau_actuel" id="profession" autocomplete="street-address" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+              <input type="text" name="niveau_actuel" id="profession" value="{{ request.POST.niveau_actuel }}" autocomplete="street-address" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
             </div>
+            {% if form.niveau_actuel.errors %}
+            <p class="text-red-500 text-xs italic pt-2">{{ form.niveau_actuel.errors.0 }}</p>  
+            {% endif %}
           </div>
 
           <div class="col-span-3">
             <label for="profession" class="block text-sm font-medium leading-6 text-gray-900">Profession</label>
             <div class="mt-2">
-              <input type="text" name="profession" id="profession" autocomplete="street-address" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+              <input type="text" name="profession" id="profession" value="{{ request.POST.profession }}" autocomplete="street-address" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
             </div>
+            {% if form.profession.errors %}
+            <p class="text-red-500 text-xs italic pt-2">{{ form.profession.errors.0 }}</p>  
+            {% endif %}
           </div>
 
 
@@ -71,6 +97,9 @@
             <div class="mt-2">
               <input type="password" name="password1" id="passwd1" autocomplete="current-password"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
             </div>
+            {% if form.password1.errors %}
+            <p class="text-red-500 text-xs italic pt-2">{{ form.password1.errors.0 }}</p>  
+            {% endif %}
           </div>
 
           <div class="col-span-full">
@@ -78,6 +107,9 @@
             <div class="mt-2">
               <input type="password" name="password2" id="passwd2" autocomplete="current-password"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
             </div>
+            {% if form.password2.errors %}
+            <p class="text-red-500 text-xs italic pt-2">{{ form.password2.errors.0 }}</p>  
+            {% endif %}
           </div>
           
           <div class="row ">
@@ -88,7 +120,7 @@
                 </svg>
               </div>
               <label class="block">
-                <input type="file" name="profil" class="block w-full text-sm text-slate-500
+                <input type="file" name="profil" value="{{ request.POST.profil }}" class="block w-full text-sm text-slate-500
                   file:mr-4 file:py-2 file:px-4
                   file:rounded-full file:border-0
                   file:text-sm file:font-semibold
@@ -105,7 +137,7 @@
             <i class="text-gray-500">Insére ton cv</i>
           </div>
           <label class="block">
-            <input type="file" name="cv" class="block w-full text-sm text-slate-500
+            <input type="file" name="cv" value="{{ request.POST.cv }}" class="block w-full text-sm text-slate-500
               file:mr-4 file:py-2 file:px-4
               file:rounded-full file:border-0
               file:text-sm file:font-semibold
@@ -127,7 +159,7 @@
                 </svg>
                 <div class="mt-4 flex text-sm leading-6 text-gray-600">
                     <label class="block">
-                        <input type="file" name="couverture" class="block w-full text-sm text-slate-500
+                        <input type="file" name="couverture" value="{{ request.POST.couverture }}" class="block w-full text-sm text-slate-500
                           file:mr-4 file:py-2 file:px-4
                           file:rounded-full file:border-0
                           file:text-sm file:font-semibold
@@ -147,8 +179,11 @@
 
       <div class="sm:col-span-3">
         <div class="mt-20 pt-10">
-          <textarea id="about" name="about" rows="3" placeholder="Écrivez quelques phrases à propos de vous-même." class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required></textarea>
+          <textarea id="about" name="about" rows="3" placeholder="Écrivez quelques phrases à propos de vous-même." class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>{{ request.POST.about }}</textarea>
         </div>
+        {% if form.about.errors %}
+        <p class="text-red-500 text-xs italic pt-2">{{ form.about.errors.0 }}</p>  
+        {% endif %}
       </div>
   
       

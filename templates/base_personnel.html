@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Uadb Personnel</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static "css_personnel/vendors/feather/feather.css" %}">
+  <link rel="stylesheet" href="{% static "css_personnel/vendors/ti-icons/css/themify-icons.css" %}">
+  <link rel="stylesheet" href="{% static "css_personnel/vendors/css/vendor.bundle.base.css" %}">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="{% static "css_personnel/vendors/datatables.net-bs4/dataTables.bootstrap4.css" %}">
+  <link rel="stylesheet" href="{% static "css_personnel/vendors/ti-icons/css/themify-icons.css" %}">
+  <link rel="stylesheet" type="text/css" href="{% static "css_personnel/js/select.dataTables.min.css" %}">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static "css_personnel/css/vertical-layout-light/style.css" %}">
+  <link rel="stylesheet" href="{% static "css/style.css" %}">
+  <!-- endinject -->
+  <!--link rel="shortcut icon" href="images/favicon.png" /-->
+
+</head>
+
+
+<body>
+  <div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    {% block navbar %}
+
+    {% endblock %}
+
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <nav class="sidebar sidebar-offcanvas" id="sidebar" style="z-index: 50;">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'personnel_home' %}">
+              <i class="icon-grid menu-icon"></i>
+              <span class="menu-title">Tableau de bord</span>
+            </a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'personnel_graphic' %}">
+              <i class="icon-bar-graph menu-icon"></i>
+              <span class="menu-title">Statistiques</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+                    
+            {% block contenu %}
+
+            {% endblock %}
+        
+        </div>
+        <!-- content-wrapper ends -->
+
+        <!-- partial:partials/_footer.html -->
+        <footer class="footer pt-35">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2023. All rights reserved.</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">@Baye_Diagne made with <i class="ti-heart text-danger ml-1"></i></span>
+          </div>
+        </footer>
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+
+    </div>   
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+
+  <!-- plugins:js -->
+  <script src="{% static "css_personnel/vendors/js/vendor.bundle.base.js" %}"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <script src="{% static "css_personnel/vendors/chart.js/Chart.min.js" %}"></script>
+  <script src="{% static "css_personnel/vendors/datatables.net/jquery.dataTables.js" %}"></script>
+  <script src="{% static "css_personnel/vendors/datatables.net-bs4/dataTables.bootstrap4.js" %}"></script>
+  <script src="{% static "css_personnel/js/dataTables.select.min.js" %}"></script>
+
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script src="{% static "css_personnel/js/off-canvas.js" %}"></script>
+  <script src="{% static "css_personnel/js/hoverable-collapse.js" %}"></script>
+  <script src="{% static "css_personnel/js/template.js" %}"></script>
+  <script src="{% static "css_personnel/js/settings.js" %}"></script>
+  <script src="{% static "css_personnel/js/todolist.js" %}"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="{% static "css_personnel/js/dashboard.js" %}"></script>
+  <script src="{% static "css_personnel/js/Chart.roundedBarCharts.js" %}"></script>
+  <!-- End custom js for this page-->
+
+
+</body>
+
+</html>
+

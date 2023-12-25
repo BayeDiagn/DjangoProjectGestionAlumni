@@ -13,7 +13,7 @@ from django.db.models import OuterRef, Subquery
 from django.db.models import Q,F
 from django.core.paginator import Paginator
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.views import PasswordResetView,PasswordResetDoneView,LoginView
+from django.contrib.auth.views import PasswordResetView,PasswordResetDoneView,LoginView,PasswordChangeView
 from django.contrib.auth.forms import PasswordResetForm
 from django.urls import reverse, reverse_lazy
 from django.db.models import Count
@@ -94,6 +94,7 @@ def etudiant_inscription(request):
             
             return redirect("cursus",user.id)
         
+        
     context={"form":form,"photo_profil_form": photo_profil_form,"photo_couverture_form": photo_couverture_form,}
     return render(request, "Etudiants/inscription.html",context)
 
@@ -160,7 +161,7 @@ def etudiant_update(request,pk):
 
 
 def liste_etudiant(request,pk):
-    #user_id=user.id
+    user=request.user
     user=user.etudiant.code_permenant[:2]
     etudiants = Etudiant.objects.exclude(id__in=[1]).order_by(   
         Case(
@@ -236,5 +237,10 @@ class EtudiantLoginView(LoginView):
     
     def get_success_url(self):
         return reverse_lazy('etudiant_home')
+    
+
+class EtudiantPasswordChangeView(PasswordChangeView):
+    #template_name = "Etudiants/login.html"
+    success_url=reverse_lazy('password_reset_complete')
     
     

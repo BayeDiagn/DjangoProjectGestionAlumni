@@ -1,0 +1,240 @@
+{% extends 'base_personnel.html' %}
+{% load static %}
+
+{% block navbar %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <a class="navbar-brand brand-logo mr-5" href="{% url 'personnel_home' %}"><img src="{% static "images/uadb.png" %}" class="mr-2" alt="logo"/>UADB</a>
+        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{% static "images/uadb.png" %}" alt="logo"/></a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+          <span class="icon-menu"></span>
+        </button>
+        <ul class="navbar-nav mr-lg-2">
+          <li class="nav-item nav-search d-none d-lg-block">
+            <div class="input-group">
+              <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
+                <span class="input-group-text" id="search">
+                  <i class="icon-search"></i>
+                </span>
+              </div>
+              <input type="text" class="form-control" id="navbar-search-input" placeholder="Recherche" aria-label="search" aria-describedby="search">
+            </div>
+          </li>
+        </ul>
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item dropdown">
+            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
+              <i class="icon-bell mx-0"></i>
+              <span class="count"></span>
+            </a>
+          </li>
+          <li class="nav-item nav-profile dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+              {% if request.user.is_personnel %}
+              <img src="{{request.user.personnel.photo.url}}" alt="profile"/>
+              {% else%}
+              <img src="{% static "images/uadb.png" %}" alt="profile"/>
+              {% endif %}
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" style="z-index: 100;" aria-labelledby="profileDropdown">
+              <a class="dropdown-item">
+                <i class="ti-settings text-primary"></i>
+                Parametres
+              </a>
+              <a href="{% url 'personnel_logout' %}" class="dropdown-item z-50"  >
+                <i class="ti-power-off text-primary"></i>
+                Déconnecter
+              </a>
+            </div>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+          <span class="icon-menu"></span>
+        </button>
+      </div>
+    </nav>
+{% endblock  %}
+
+
+{% block contenu %}
+<!--Contenu Principal-->    
+
+<div class="row">
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card-body ">
+              <h4 class="card-title">Informations personnelle</h4>
+              <!--p class="card-description">Add class <code>.btn-{color}</code> for buttons in theme colors</p-->
+              <div class="template-demo">
+                <p style="font-weight:900;"> Prénom :</p>
+                <p style="font-weight:900;"> Nom :</p>
+                <p style="font-weight:900;"> Code permenant :</p>
+                <p style="font-weight:900;"> Niveau actuel :</p>
+                <p style="font-weight:900;"> Profession :</p>
+                <p style="font-weight:900;"> Adresse :</p>
+                <p style="font-weight:900;"> Téléphone :</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card-body">
+              <div class="template-demo" style="display: flex; align-items: center;">
+                <div style="width: 70%;">
+                    <p style="font-weight: 500; padding-top: 35px">{{ etudiant.first_name }}</p>
+                    <p style="font-weight: 500;">{{ etudiant.last_name }}</p>
+                    <p style="font-weight: 500;">{{ etudiant.code_permenant }}</p>
+                    <p style="font-weight: 500;">{{ etudiant.niveau_actuel }}</p>
+                    <p style="font-weight: 500;">{{ etudiant.profession }}</p>
+                    <p style="font-weight: 500;">{{ etudiant.adresse }}</p>
+                    <p style="font-weight: 500;">{{ etudiant.tel }}</p>
+                </div>
+                <div style="width: 30%;">
+                    <div style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; ">
+                        <img src="{{ chemin_photo }}" alt="Photo de profil" style="width: 100%; height: 100%; ">
+                    </div>
+                    <!-- Button trigger modal -->
+                    <div style="padding-top:150px; ">
+                        <a href="{% url 'etudiant_delete' etudiant.id %}" class="btn btn-danger btn-rounded btn-fw">Supprimer</a>
+                    </div>
+
+                    <!-- Modal -->
+                    <!--div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                     <div class="modal-content">
+                        <div class="modal-header">
+                         <h5 class="modal-title" id="exampleModalLabel">Supprimer {{ etudiant.first_name }}</h5>
+                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                         </div>
+                         <div class="modal-body">
+                            Êtes-vous sûre de cette action ?
+                            </div>
+                         <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
+                            <form method="POST" action="{% url 'etudiant_delete' etudiant.id %}">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-danger" value="Supprimer"> 
+                            </form>
+                        </div>
+                        </div>
+                         </div>
+                     </div-->
+                     <!--EndModal-->
+
+                </div>
+            </div>
+            
+            </div>
+          </div>
+        </div>
+     </div>
+    </div>
+</div>
+
+{% if list_cursus  %}
+<div class="row">
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card-body ">
+              <h4 class="card-title">Cursus</h4>
+              <div class="template-demo">
+                {% for cursus in list_cursus %}
+                <p style="font-weight:900; "> Université d'accueil :</p>
+                <p style="font-weight:900;"> Nom du diplôme :</p>
+                <p style="font-weight:900;"> Cycle :</p>
+                <p style="font-weight:900;"> Date debut :</p>
+                <p style="font-weight:900; padding-bottom: 36px"> Date Fin :</p>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-8">
+            <div class="card-body">
+              <div class="template-demo" style="display: flex; align-items: center;">
+                {% for cursus in list_cursus %}
+                <div style="width: 70%;">
+                    <p style="font-weight: 500; padding-top: 35px">{{ cursus.etablissement }}</p>
+                    <p style="font-weight: 500;">{{ cursus.diplome_name }}</p>
+                    <p style="font-weight: 500;">{% if cursus.cycle == "Autre"  %} {{ cursus.autre_cycle }} {% else %} {{ cursus.cycle }} {% endif %} </p>
+                    <p style="font-weight: 500;">{{ cursus.mois_date_debut }}/{{ cursus.annee_date_debut }}</p>
+                    <p style="font-weight: 500;">{{ cursus.mois_date_fin }}/{{ cursus.annee_date_fin }}</p>
+                    {% endfor %}
+                </div>  
+            </div> 
+            </div>
+          </div>
+        </div>
+     </div>
+    </div>
+</div>
+{% endif %}
+
+{% if list_competence %}
+<div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+        <h4 class="card-title"style="padding-top:20px; padding-left:20px" >Compétences</h4>
+      <div class="row">
+
+        {% for competence in list_competence %}
+        <div class="col-md-6 ">
+          <div class="card-body">      
+              <p style="font-weight:900; "> Nom du compétence  :&nbsp;&nbsp; <span style="font-weight:500;">{{competence.nom}}</span> </p>
+              <p style="font-weight:900; "> Niveau de maîtrise :&nbsp;&nbsp; <span style="font-weight:500;">{{competence.pourcentage}}</span> </p>  
+            </div>
+        </div> 
+        {% endfor %}
+    </div> 
+ </div> 
+</div>       
+{% endif %}
+
+
+{% if list_emploi  %}
+<div class="col-12 grid-margin " style="margin-bottom:30;">
+    <div class="card">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card-body">
+            <h4 class="card-title">Parcours Professionnel</h4>
+            <div class="template-demo">
+                {% for emploi in list_emploi %}
+                <p style="font-weight:900; "> Entreprise :</p> 
+                <p style="font-weight:900;"> Type de contrat :</p>
+                <p style="font-weight:900;"> Intutilé de poste :</p>
+                <p style="font-weight:900;"> Date debut :</p>
+                <p style="font-weight:900; padding-bottom: 36px"> Date Fin :</p>
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card-body">
+            <div class="template-demo">
+                {% for emploi in list_emploi %}
+                <div style="width: 70%;">
+                    <p style="font-weight: 500; padding-top: 35px">{{ emploi.entreprise }}</p>
+                    <p style="font-weight: 500;">{{ emploi.typecont }}</p>
+                    <p style="font-weight: 500;">{{ emploi.poste }}  </p>
+                    <p style="font-weight: 500;">{{ emploi.mois_date_debut }}/{{ emploi.annee_date_debut }}</p>
+                    <p style="font-weight: 500;">{% if emploi.mois_date_fin %} {{ emploi.mois_date_fin }}/{{ emploi.annee_date_fin }} {% else %} Emploi en cours {% endif %}</p>
+                    {% endfor %}
+                </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+
+{% endblock %}

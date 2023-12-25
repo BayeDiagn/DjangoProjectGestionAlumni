@@ -1,4 +1,5 @@
 import datetime
+from django.contrib import messages
 from django.shortcuts import render,redirect
 from Cursus.models import Cursus
 from Emploi.models import Emploi
@@ -13,10 +14,12 @@ from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 
 from django.contrib.auth.views import LoginView
+from django.views.generic import DetailView, DeleteView
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import user_passes_test
 
 from Personnels.models import Personnel
+from competence.models import Competence
 
 
 
@@ -108,6 +111,8 @@ def personnel_home(request):
     
     #print(liste_cycle_name,cycles_nbre)
     #print(list_pourcentage)
+    
+    #list_messages = messages.get_messages(request)
        
     context={'etudiants': etudiants,"photos":photos,"liste":liste,
              "jour":jour,"mois":mois,"annee":annee,"heure":heure,
@@ -136,13 +141,15 @@ def personnel_graphic(request):
         #print(f"{emploi['entreprise']} : {emploi['nbre']} emplois")
     #print(liste_entrep_name)
     
+    nbre_type_contrat = Emploi.objects.values('typecont').count()
+    #print(nbre_type_contrat)
     liste_cont_name=[]
     liste_cont_nbre=[]
     typecontrat = (Emploi.objects.annotate(lower_typecont=Lower('typecont')).values('lower_typecont').annotate(nbre=Count('id')))
     for contrat in typecontrat:
         liste_cont_nbre.append(contrat['nbre'])
         liste_cont_name.append(contrat['lower_typecont'])
-    #print(typecontrat)
+    #print()
     
     contbyEntrep = {}
 
@@ -172,6 +179,10 @@ def personnel_graphic(request):
         "#"+''.join([random.choice('0123456789ABCDEF') for j in range(6)])  
         for i in range(len(liste_entrep_name))
     ]
+    colors_nbre_typecont = [
+        "#"+''.join([random.choice('8ABC1DE6F0234579') for j in range(6)])  
+        for i in range(nbre_type_contrat)
+    ]
     #emplois_par_entreprise = Emploi.objects.values('entreprise').annotate(nbre=Count('id')).order_by('-nbre')
     #for emploi in emplois_par_entreprise:
        # print(f"{emploi['entreprise']} : {emploi['nbre']} emplois")  #Django sait alors qu'on veut grouper par entrepriseannotate(nbre=Count('id')) compte le nombre d'enregistrements (id) dans chaque groupe d'entreprise
@@ -179,11 +190,11 @@ def personnel_graphic(request):
     context={"liste_entrep_nbre":liste_entrep_nbre,"liste_entrep_name":liste_entrep_name,
              "colors":colors,"liste_cont_nbre":liste_cont_nbre,"liste_cont_name":liste_cont_name,
              "nbre_TypeCont_By_Entrep":nbre_TypeCont_By_Entrep,"name_Entrep_TypeCont_By":
-             name_Entrep_TypeCont_By,
+             name_Entrep_TypeCont_By,"colors_nbre_typecont":colors_nbre_typecont
              }
-    mot_de_passe_en_clair = "123"
-    mot_de_passe_crypte = make_password(mot_de_passe_en_clair)
-    print(mot_de_passe_crypte)
+    #mot_de_passe_en_clair = "123"
+    #mot_de_passe_crypte = make_password(mot_de_passe_en_clair)
+    #print(mot_de_passe_crypte)
     
     return render(request,"Personnels/graphics.html",context)
 
@@ -214,6 +225,67 @@ class PersonnelLoginView(LoginView):
 
 #view de deconnexion
 def personnel_logout(request):
-    logout(request)
-    
+    logout(request)   
     return redirect("personnel_login")
+
+
+class EtudiantDetailView(DetailView):
+    context_object_name = "etudiant"
+    template_name = "Personnels/detail_etudiant.html"
+    model = Etudiant
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Récupérer l'ID de l'étudiant
+        etudiant_id = self.object.pk
+    
+        photo_profil = PhotoProfil.objects.filter(etudiant=etudiant_id).last()
+        
+        list_cursus = Cursus.objects.filter(etudiant=etudiant_id)
+        list_emploi = Emploi.objects.filter(etudiant=etudiant_id)
+        list_competence = Competence.objects.filter(etudiant=etudiant_id)
+        
+        
+        context['chemin_photo'] = photo_profil.profil.url    #2 manieres d ajout
+        
+        context.update({
+            'list_cursus': list_cursus,
+            'list_emploi': list_emploi,
+            'list_competence': list_competence,
+        })
+
+        
+        return context
+
+
+class EtudiantDeleteView(DeleteView):
+    model = Etudiant 
+    template_name =  "Personnels/delete_etudiant.html"
+    #success_url = reverse_lazy('personnel_home')
+    
+    def get_success_url(self):
+           return reverse_lazy('personnel_home')
+       
+       
+   # def delete(self, request, *args, **kwargs):
+        
+    #   etudiant = self.get_object()
+     #  etudiant.delete()
+
+        # Ajouter un message flash
+      # messages.success(request, f"L'étudiant {etudiant.first_name} {etudiant.last_name} {etudiant.code_permenant} est supprimé avec succès !")
+
+       #return super().delete(request, *args, **kwargs)
+      
+
+    #def post(self, request, *args, **kwargs):
+        # Récupérer l'étudiant
+     #   etudiant = self.get_object()
+      #  etudiant.delete()
+        
+        # Ajouter message flash
+       # messages.success(request, "Étudiant supprimé avec succès !")
+
+        #return self.delete(request, *args, **kwargs)
+

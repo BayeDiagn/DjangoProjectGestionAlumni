@@ -39,7 +39,7 @@ class Etudiant(User):
     
     def __str__(self):
           if self.first_name is not None and self.last_name is not None:
-            return f"{self.first_name} {self.last_name} {self.id}"
+            return f"{self.first_name} {self.last_name}"
           elif self.first_name is not None:
             return self.first_name
           else:
@@ -96,7 +96,7 @@ class PhotoProfil(models.Model):
     
     
     def __str__(self):
-        return f"{self.etudiant.first_name} {self.etudiant.last_name} {self.id} (Profil)"
+        return f"{self.etudiant.first_name} {self.etudiant.last_name} (Profil)"
 
 
 class PhotoCouverture(models.Model):
@@ -104,7 +104,7 @@ class PhotoCouverture(models.Model):
     couverture = models.ImageField(upload_to=upload_photo_couverture, null=True, blank=True)
     
     def __str__(self):
-        return f"{self.etudiant.first_name} {self.etudiant.last_name} {self.id} (Couverture)"
+        return f"{self.etudiant.first_name} {self.etudiant.last_name} (Couverture)"
     
     
     

@@ -16,7 +16,7 @@ class EtudiantForm(UserCreationForm):
     
     class Meta:    #class Meta(UserCreationForm.Meta):
         model=Etudiant
-        fields=["first_name","last_name","code_permenant","email","adresse","tel","password1","password2","about","profession","cv"]
+        fields=["first_name","last_name","code_permenant","email","adresse","tel","password1","password2","niveau_actuel","about","profession","cv"]
        
        
        #modifier.html
@@ -37,12 +37,14 @@ class EtudiantForm(UserCreationForm):
 class EtudiantFormUpdate(forms.ModelForm):
       class Meta:  
             model=Etudiant
-            fields=["first_name","last_name","code_permenant","email","adresse","tel","niveau_actuel","about","profession","cv"]
+            fields=["first_name","last_name","code_permenant","email","adresse","tel", "niveau_actuel","about","profession","cv"]
             
             widgets ={"first_name": forms.TextInput(attrs={'class':'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ',}),
                  "last_name": forms.TextInput(attrs={'class':'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6',}),
                  "code_permenant": forms.TextInput(attrs={'class':'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6',}),
                  "email": forms.EmailInput(attrs={'class':'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6','placeholder':'exemple@gmail.com'}),  
+                 #"password1": forms.PasswordInput(attrs={'class':'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6',}),
+                 #"password2": forms.PasswordInput(attrs={'class':'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6',}),
                  "adresse": forms.TextInput(attrs={'class':'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6',}),
                  "profession": forms.TextInput(attrs={'class':'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6',}),
                  "tel": forms.TextInput(attrs={'class':'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6',}),

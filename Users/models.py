@@ -53,7 +53,7 @@ class User(AbstractUser):
     
     def __str__(self):
           if self.first_name is not None and self.last_name is not None:
-            return f"{self.first_name} {self.last_name} {self.id}"
+            return f"{self.first_name} {self.last_name}"
           elif self.first_name is not None:
             return self.first_name
           else:

@@ -27,6 +27,7 @@ urlpatterns = [
     path("reset/<uidb64>/<token>/",PasswordResetConfirmView.as_view(template_name='Etudiants/changed_password.html'),name="password_reset_confirm"),
     path("fogot_password_complete/",PasswordResetCompleteView.as_view(template_name='Etudiants/password_complet.html'),name="password_reset_complete"),
 
+    path("<int:pk>/changepassword/",views.EtudiantPasswordChangeView.as_view(template_name='Etudiants/password_change.html'),name="changepassword"),
 ]
 
 

@@ -233,7 +233,7 @@ class MyPasswordResetDoneView(PasswordResetDoneView):
     template_name='Etudiants/sent_email_password.html'
     
 class EtudiantLoginView(LoginView):
-    template_name = "Etudiants/login.html"
+    template_name = "Etudiants/index.html"
     
     def get_success_url(self):
         return reverse_lazy('etudiant_home')

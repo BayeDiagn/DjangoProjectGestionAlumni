@@ -63,13 +63,15 @@ def personnel_home(request):
     annee=date.strftime('%Y')
     heure=date.strftime('%H')
     mn=date.strftime('%M')
-    #print(jour)
+    #print(datetime.date.today())
     
     #liste_cycle_name=[]
     liste_cycle_nbre=[]
     list_pourcentage=[]
     cycles_nbre = Cursus.objects.count()
-    cycles = Cursus.objects.values('cycle').annotate(nbre=Count('id'))
+    cycles = Cursus.objects.values('cycle').annotate(nbre=Count('id'))   #.values('cycle'): permet d'effectuer une opération de regroupement sur un champ
+                                                                         #.annotate(): permet de compter pour chaque groupe le nbre d'elts en utilisant leur id
+                                                                         #cycles = Cursus.objects.only('cycle') colonne cycle seule
     for cycle_name in cycles:
         #liste_cycle_name.append(cycle_name['cycle'])
         liste_cycle_nbre.append(cycle_name['nbre'])
@@ -81,20 +83,17 @@ def personnel_home(request):
     #etudiants_master = Cursus.objects.filter(cycle='Master').count()
     
     etudiants_lic = Cursus.objects.filter(Q(etablissement__icontains='alioune diop') | Q(etablissement__icontains='uadb'),cycle__icontains='licence').count()
-    etudiants_master = Cursus.objects.filter(Q(etablissement__icontains='alioune diop') | Q(etablissement__icontains='uadb'),cycle__icontains='master').count()
     #etudiants_master = Cursus.objects.filter(Q(etablissement__icontains='alioune diop') | Q(etablissement__icontains='uadb'),cycle__icontains='master').count()
-    etudiants_lic_mast = Cursus.objects.filter(Q(etablissement__icontains='alioune diop') | Q(etablissement__icontains='uadb'),Q(cycle__icontains='master') | Q(cycle__icontains='licence')).count()
-    
-    etudiants_lic1 = Cursus.objects.filter(Q(etablissement__icontains='alioune diop') | Q(etablissement__icontains='uadb'),cycle__icontains='licence').count()
-    etudiants_master1 = Cursus.objects.filter(Q(etablissement__icontains='alioune diop') | Q(etablissement__icontains='uadb'),cycle__icontains='master').count()
-    etudiants_lic_mast1 = Cursus.objects.filter(Q(etablissement__icontains='alioune diop') | Q(etablissement__icontains='uadb'),Q(cycle__icontains='master') | Q(cycle__icontains='licence')).count()
-    #print(cyc,cyc2,cyc1)
+   # etudiants_lic_mast = Cursus.objects.filter(Q(etablissement__icontains='alioune diop') | Q(etablissement__icontains='uadb'),Q(cycle__icontains='master') | Q(cycle__icontains='licence')).count()
+     
+    #print(etudiants_master)
     
     #print(Cursus.objects.filter(etablissement__icontains="alioune diop",cycle="Master").exclude(Q(cycle="Licence") & Q(etablissement__icontains="alioune diop")))
     
-    master_alioune = Etudiant.objects.filter(cursus__etablissement__icontains="alioune diop",cursus__cycle="Master")
-    nbre_master_alioune = Etudiant.objects.filter(cursus__etablissement__icontains="alioune diop",cursus__cycle="Master").count()
-    licence_alioune = Etudiant.objects.filter(cursus__etablissement__icontains="alioune diop",cursus__cycle="Licence")
+    master_alioune = Etudiant.objects.filter(Q(cursus__etablissement__icontains='alioune diop') | Q(cursus__etablissement__icontains='uadb'),cursus__cycle="Master")
+    nbre_master_alioune = master_alioune.count()
+    #print(nbre_master_alioune)
+    licence_alioune = Etudiant.objects.filter(Q(cursus__etablissement__icontains="alioune diop") | Q(cursus__etablissement__icontains='uadb') ,cursus__cycle="Licence")
     etudiants_master_seul = len(set(master_alioune) - set(licence_alioune))
     licence_master = nbre_master_alioune - etudiants_master_seul
     
@@ -103,24 +102,15 @@ def personnel_home(request):
     #print(master_ailleur)
     
     #print(Etudiant.objects.filter(id__in=etudiants_master_ids))
-    #print(Cursus.objects.filter(cycle__etudiant='Master'))
-
-
-    #etudiants_master_sans_licence = master_alioune.filter(etudiant__in=master_alioune)etudiant__in=licence_alioune).values_list('etudiant_id', flat=True)
-    #print(etudiants_master_sans_licence)
-    
-    #print(liste_cycle_name,cycles_nbre)
-    #print(list_pourcentage)
     
     #list_messages = messages.get_messages(request)
+    
        
     context={'etudiants': etudiants,"photos":photos,"liste":liste,
              "jour":jour,"mois":mois,"annee":annee,"heure":heure,
              "mn":mn,"nbre_etudiant":nbre_etudiant,"cycles":cycles,
              "data_tuples1":data_tuples1,"data_tuples2":data_tuples2,
              "cycles_nbre":cycles_nbre,"etudiants_lic":etudiants_lic,
-             "etudiants_master":etudiants_master,"etudiants_lic_mast":etudiants_lic_mast,
-             "etudiants_lic1":etudiants_lic1,"etudiants_master1":etudiants_master1,"etudiants_lic_mast1":etudiants_lic_mast1,
              "nbre_personnel":nbre_personnel,"etudiants_master_seul":etudiants_master_seul,
              "licence_master":licence_master,"master_ailleur":master_ailleur,
              } 
@@ -134,15 +124,17 @@ def personnel_graphic(request):
     liste_entrep_name=[]
     liste_entrep_nbre=[]
     #entreprises = Emploi.objects.values('entreprise').annotate(nbre=Count('id'))   #entreprises = Emploi.objects.values_list('entreprise', flat=True).distinct()
-    entreprises = (Emploi.objects.annotate(lower_entreprise=Lower('entreprise')).values('lower_entreprise').annotate(nbre=Count('id')))
+    entreprises = (Emploi.objects.annotate(lower_entreprise=Lower('entreprise')).values('lower_entreprise').annotate(nbre=Count('id')))   #Emploi.objects.annotate(lower_entreprise=Lower('entreprise')) 
+                                                                                                                                          #pour chaque objet Emploi de la base de données, va ajouter 
+                                                                                                                                          #un nouveau champ lower_entreprise contenant le champ entreprise 
+                                                                                                                                          #original mais converti en minuscules
     for emploi in entreprises:
         liste_entrep_nbre.append(emploi['nbre'])
         liste_entrep_name.append(emploi['lower_entreprise'])
         #print(f"{emploi['entreprise']} : {emploi['nbre']} emplois")
     #print(liste_entrep_name)
     
-    nbre_type_contrat = Emploi.objects.values('typecont').count()
-    #print(nbre_type_contrat)
+    
     liste_cont_name=[]
     liste_cont_nbre=[]
     typecontrat = (Emploi.objects.annotate(lower_typecont=Lower('typecont')).values('lower_typecont').annotate(nbre=Count('id')))
@@ -179,14 +171,13 @@ def personnel_graphic(request):
         "#"+''.join([random.choice('0123456789ABCDEF') for j in range(6)])  
         for i in range(len(liste_entrep_name))
     ]
+    
+    nbre_type_contrat = Emploi.objects.values('typecont').count()
     colors_nbre_typecont = [
         "#"+''.join([random.choice('8ABC1DE6F0234579') for j in range(6)])  
         for i in range(nbre_type_contrat)
     ]
-    #emplois_par_entreprise = Emploi.objects.values('entreprise').annotate(nbre=Count('id')).order_by('-nbre')
-    #for emploi in emplois_par_entreprise:
-       # print(f"{emploi['entreprise']} : {emploi['nbre']} emplois")  #Django sait alors qu'on veut grouper par entrepriseannotate(nbre=Count('id')) compte le nombre d'enregistrements (id) dans chaque groupe d'entreprise
-    
+
     context={"liste_entrep_nbre":liste_entrep_nbre,"liste_entrep_name":liste_entrep_name,
              "colors":colors,"liste_cont_nbre":liste_cont_nbre,"liste_cont_name":liste_cont_name,
              "nbre_TypeCont_By_Entrep":nbre_TypeCont_By_Entrep,"name_Entrep_TypeCont_By":
@@ -199,20 +190,9 @@ def personnel_graphic(request):
     return render(request,"Personnels/graphics.html",context)
 
 
-#def personnel_login(request):
-  #  if request.method == 'POST':
-   #     form = PersonnelLoginForm(request.POST)
-    #    if form.is_valid():
-     #       email = form.cleaned_data['email']
-      #      password = form.cleaned_data['password']
-       #     user = authenticate(request, email=email, password=password)
-        #    if user is not None:
-         #       login(request, user)
-          #      return redirect('personnel_home')
-   # else:
-   #     form = PersonnelLoginForm()
 
-    #return render(request, 'Personnels/personnel_login.html', {'form': form})
+     #email = form.cleaned_data['email']
+     #password = form.cleaned_data['password']
     
 
 class PersonnelLoginView(LoginView):
@@ -261,31 +241,8 @@ class EtudiantDetailView(DetailView):
 
 class EtudiantDeleteView(DeleteView):
     model = Etudiant 
-    template_name =  "Personnels/delete_etudiant.html"
+    template_name = "Personnels/delete_etudiant.html"
     #success_url = reverse_lazy('personnel_home')
     
     def get_success_url(self):
            return reverse_lazy('personnel_home')
-       
-       
-   # def delete(self, request, *args, **kwargs):
-        
-    #   etudiant = self.get_object()
-     #  etudiant.delete()
-
-        # Ajouter un message flash
-      # messages.success(request, f"L'étudiant {etudiant.first_name} {etudiant.last_name} {etudiant.code_permenant} est supprimé avec succès !")
-
-       #return super().delete(request, *args, **kwargs)
-      
-
-    #def post(self, request, *args, **kwargs):
-        # Récupérer l'étudiant
-     #   etudiant = self.get_object()
-      #  etudiant.delete()
-        
-        # Ajouter message flash
-       # messages.success(request, "Étudiant supprimé avec succès !")
-
-        #return self.delete(request, *args, **kwargs)
-

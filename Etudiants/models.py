@@ -12,11 +12,11 @@ from Users.models import User
    
 
 def upload_to(instance, filename):
-    user_folder = f"{instance.etudiant.code_permenant}_{instance.etudiant.first_name}"
+    user_folder = f"{instance.code_permenant}_{instance.first_name}"
     if instance.cv:
-        folder = "my_cv" 
+        folder = f"CV_{instance.code_permenant}_{instance.first_name}" 
 
-    filename = instance.user.first_name + '_' + filename
+    #filename = instance.user.first_name + '_' + filename
     filename = user_folder + '_' + filename
     
     return os.path.join(folder, user_folder, filename)
@@ -57,25 +57,25 @@ class Etudiant(User):
        return [
             {'etablissement': cursus.etablissement, 'annee_debut': cursus.annee_date_debut, 'annee_fin': cursus.annee_date_fin}
             for cursus in self.cursus_set.all()
-            if 'alioune diop' in cursus.etablissement.lower()
+            if 'alioune diop' in cursus.etablissement.lower() or 'uadb' in cursus.etablissement.lower()
         ]
                                                                         # if cursus.etablissement.lower() in ['universite alioune', 'uadb']]
    
 
-    def get_filtered_etablissements(self):
-        from Cursus.models import Cursus
-        cursus_contenant_alioune_diop = Cursus.objects.filter(etablissement__icontains='alioune diop')
-        cursus_contenant_uadb = Cursus.objects.filter(etablissement__icontains='uadb')
+    #def get_filtered_etablissements(self):
+     #   from Cursus.models import Cursus
+      #  cursus_contenant_alioune_diop = Cursus.objects.filter(etablissement__icontains='alioune diop').first()
+       # cursus_contenant_uadb = Cursus.objects.filter(etablissement__icontains='uadb')
 
-        premier_cursus_alioune_diop = cursus_contenant_alioune_diop.filter(etudiant=self).first()
-        premier_cursus_uadb = cursus_contenant_uadb.filter(etudiant=self).first()
+        #premier_cursus_alioune_diop = cursus_contenant_alioune_diop.filter(etudiant=self).first() #falcultative
+        #premier_cursus_uadb = cursus_contenant_uadb.filter(etudiant=self).first()
 
-        if premier_cursus_alioune_diop:
-            return premier_cursus_alioune_diop.etablissement
-        elif premier_cursus_uadb:
-            return premier_cursus_uadb.etablissement
-        else:
-            return None
+       # if premier_cursus_alioune_diop:
+        #    return premier_cursus_alioune_diop.etablissement
+        #elif premier_cursus_uadb:
+         #   return premier_cursus_uadb.etablissement
+        #else:
+         #   return None
 
 
 

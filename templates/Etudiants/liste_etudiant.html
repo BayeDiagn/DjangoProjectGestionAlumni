@@ -19,7 +19,7 @@
             <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end pr-5">
                 <p class="text-sm leading-6 text-gray-900">
                         <p class="text-sm leading-6 text-gray-900 ">
-                            {{ etudiant.get_filtered_etablissements|default:"Aucun cursus pour le moment" }}
+                            {{ etudiant.get_filtered_bambey_years.0.etablissement|default:"Aucun cursus à l'Université Alioune DIOP" }}
                         </p>
                         <!--p class="text-sm leading-6 text-gray-900">
                             {{ etudiant.get_filtered_etablissements|default:"Aucun cursus contenant Alioune Diop ou Uadb" }}

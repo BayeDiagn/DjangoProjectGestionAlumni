@@ -124,7 +124,7 @@ def etudiant_logout(request):
 
 #view update
 def etudiant_update(request,pk):
-    user=request.user
+    #user=request.user
     etudiant=Etudiant.objects.get(id=pk)
     
     form = EtudiantFormUpdate(instance=etudiant)
@@ -162,14 +162,15 @@ def etudiant_update(request,pk):
 
 def liste_etudiant(request,pk):
     user=request.user
-    user=user.etudiant.code_permenant[:2]
-    etudiants = Etudiant.objects.exclude(id__in=[1]).order_by(   
+    user=user.etudiant.code_permenant[:2] 
+    etudiants = Etudiant.objects.order_by(   
         Case(
             When(code_permenant__startswith=user, then=0),
             default=1,
         ),
         'code_permenant'
-    )
+    )     #.exclude(id__in=[1])
+    
     photos=PhotoProfil.objects.all()
     cursus = Cursus.objects.all() 
     

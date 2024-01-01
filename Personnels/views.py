@@ -53,9 +53,15 @@ def personnel_home(request):
     nbre_etudiant=etudiants.count()
     nbre_personnel=Personnel.objects.count()
     
+    if request.method == "GET":
+        searched = request.GET.get('search')
+        if searched is not None:
+            etudiants= Etudiant.objects.filter(code_permenant__contains=searched).order_by('code_permenant')
+    
     p=Paginator( etudiants,10)
     page=request.GET.get('page')
     liste=p.get_page(page)
+    
     
     date = datetime.datetime.now()
     jour=date.strftime('%d')

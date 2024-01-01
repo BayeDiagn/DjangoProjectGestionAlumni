@@ -20,7 +20,10 @@
                   <i class="icon-search"></i>
                 </span>
               </div>
-              <input type="text" class="form-control" id="navbar-search-input" placeholder="Recherche" aria-label="search" aria-describedby="search">
+              <form class="d-grid gap-2 d-md-flex justify-content-between ">
+              <input type="text" class="form-control" name="search" id="navbar-search-input" placeholder="Recherche" aria-label="search" aria-describedby="search" value="{{ request.GET.search }}">
+              <!--button type="submit" class="btn btn-outline-info btn-sm " style="height:28px; margin-top:15px"> Recherche</button-->
+              </form>
             </div>
           </li>
         </ul>
@@ -294,9 +297,9 @@
           </code>
         </p>
         <div class="table-responsive" id="results">
-          <table class=" table table-hover display expandable-table" style="height:35vh"> 
+          <table class=" table table-hover display expandable-table" > 
             <thead>
-              <tr>
+              <tr >
                 <th> Photo </th>
                 <th> Prénom </th>
                 <th> Nom </th>
@@ -310,7 +313,7 @@
               {% for photo in photos %}
               {% if photo.etudiant == etudiant %}
               <tr>
-                <td class="py-1">
+                <td class="py-1" >
                   <a href="{% url 'etudiant_detail' etudiant.id %}"><img src="{{photo.profil.url}}" alt="image"/></a>
                 </td>
                 <td>
@@ -365,5 +368,20 @@
   
     </ul>
   </nav>
+
+
+<script>
+    // Utilisation de JavaScript pour déclencher la recherche à chaque frappe
+    document.addEventListener("DOMContentLoaded", function () {
+        var inputTermeRecherche = document.querySelector("#navbar-search-input");
+        inputTermeRecherche.addEventListener("input", function () {
+            // Soumettre automatiquement le formulaire à chaque frappe
+            if (this.value.length >= 2) {
+              // Soumettre automatiquement le formulaire à chaque frappe
+              this.form.submit();
+          }
+        });
+    });
+</script>
 
 {% endblock %}

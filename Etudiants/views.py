@@ -245,3 +245,5 @@ class EtudiantPasswordChangeView(PasswordChangeView):
     success_url=reverse_lazy('password_reset_complete')
     
     
+def page404(request,exception):
+    return render(request,'404.html')

@@ -1,4 +1,5 @@
 import datetime
+import json
 from django.contrib import messages
 from django.shortcuts import render,redirect
 from Cursus.models import Cursus
@@ -49,6 +50,7 @@ def personnel_required(view_func):
 @personnel_required
 def personnel_home(request):
     etudiants=Etudiant.objects.all().order_by('code_permenant')
+    #etudiants_json = json.dumps(etudiants)
     photos = PhotoProfil.objects.all()
     nbre_etudiant=etudiants.count()
     nbre_personnel=Personnel.objects.count()
